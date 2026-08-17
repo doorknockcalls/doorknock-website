@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DoorKnock — Sample Client Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12294A;
+    --navy2:#182F53;
+    --blue:#2D6BE4;
+    --slate:#5A6B82;
+    --paper:#F4F6F9;
+    --white:#FFFFFF;
+    --line: rgba(18,41,74,0.10);
+    --amber:#F5A524;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Montserrat', sans-serif;
+    font-weight:500;
+    color:var(--navy);
+    background:var(--paper);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+
+  /* Sample banner */
+  .sample-banner{
+    background:var(--amber); color:#3A2600; text-align:center;
+    font-size:13px; font-weight:800; letter-spacing:0.03em;
+    padding:10px 16px;
+  }
+
+  /* Top bar */
+  .topbar{
+    background:var(--navy); color:var(--white);
+    padding:20px 0;
+  }
+  .topbar .wrap{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand svg{width:28px; height:28px; display:block;}
+  .brand span{font-size:18px; font-weight:800;}
+  .account{font-size:13px; color:#93A6BF; font-weight:600;}
+  .account strong{color:var(--white);}
+  .back-link{font-size:13.5px; font-weight:700; color:#C7D2E3; text-decoration:none;}
+  .back-link:hover{color:var(--white);}
+
+  main{padding:40px 0 72px;}
+  h1.page-title{font-size:24px; font-weight:800; color:var(--navy);}
+  p.page-sub{margin-top:6px; color:var(--slate); font-size:14.5px; max-width:640px;}
+
+  /* Filter row */
+  .filter-row{
+    margin-top:26px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .filter-pill{
+    font-size:13px; font-weight:700; padding:8px 16px; border-radius:999px;
+    border:1.5px solid var(--line); background:var(--white); color:var(--slate);
+    cursor:default;
+  }
+  .filter-pill.active{background:var(--navy); color:var(--white); border-color:var(--navy);}
+
+  /* Stat tiles (light) */
+  .stat-grid{margin-top:22px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px;}
+  .stat-card{
+    background:var(--white); border:1px solid var(--line); border-radius:14px; padding:20px 22px;
+  }
+  .stat-card .label{font-size:12px; font-weight:700; color:var(--slate); text-transform:uppercase; letter-spacing:0.05em;}
+  .stat-card .value{font-size:30px; font-weight:800; color:var(--navy); margin-top:8px;}
+  .stat-card .delta{font-size:12.5px; font-weight:700; margin-top:5px; color:#1E9E5A;}
+  .stat-card .delta.flat{color:var(--slate);}
+
+  /* Chart card */
+  .chart-card{
+    margin-top:28px; background:var(--navy); border-radius:16px; padding:30px 30px 22px;
+  }
+  .chart-head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .chart-head h2{font-size:17px; font-weight:800; color:var(--white);}
+  .chart-head p{font-size:13px; color:#93A6BF; margin-top:4px;}
+  .table-toggle{
+    font-size:12.5px; font-weight:700; color:#C7D2E3; background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.16); padding:8px 14px; border-radius:8px; cursor:pointer;
+  }
+  .table-toggle:hover{background:rgba(255,255,255,0.14);}
+  .chart-wrap{position:relative; margin-top:18px;}
+  #chartSvg{width:100%; height:auto; display:block; overflow:visible;}
+  .gridline{stroke:rgba(255,255,255,0.10); stroke-width:1;}
+  .axis-label{fill:#7C8FAC; font-size:11px; font-family:'Montserrat',sans-serif; font-weight:600;}
+  .line-path{fill:none; stroke:var(--blue); stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+  .area-path{fill:var(--blue); opacity:0.10;}
+  .end-dot{fill:var(--blue); stroke:var(--navy); stroke-width:2;}
+  .hover-dot{fill:var(--blue); stroke:var(--navy); stroke-width:2; opacity:0;}
+  .crosshair{stroke:rgba(255,255,255,0.28); stroke-width:1; opacity:0;}
+  .hit-rect{fill:transparent;}
+  .tooltip{
+    position:absolute; pointer-events:none; background:#0B1B32; border:1px solid rgba(255,255,255,0.14);
+    border-radius:10px; padding:10px 14px; font-size:12.5px; color:#C7D2E3; opacity:0; transform:translate(-50%,-110%);
+    white-space:nowrap; box-shadow:0 8px 20px rgba(0,0,0,0.3); z-index:5;
+  }
+  .tooltip .t-date{font-weight:700; color:var(--white); margin-bottom:6px;}
+  .tooltip .t-row{display:flex; align-items:center; gap:8px; margin-top:3px;}
+  .tooltip .t-key{width:8px; height:2px; background:var(--blue); display:inline-block; border-radius:2px;}
+  .tooltip .t-val{font-weight:800; color:var(--white);}
+  .tooltip .t-label{color:#93A6BF;}
+
+  .data-table-wrap{margin-top:20px; display:none; overflow-x:auto;}
+  .data-table-wrap.open{display:block;}
+  table.data-table{width:100%; border-collapse:collapse; font-size:13px;}
+  table.data-table th{
+    text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;
+    color:#93A6BF; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.14); font-variant-numeric:tabular-nums;
+  }
+  table.data-table td{
+    padding:8px 12px; color:#E4E9F1; border-bottom:1px solid rgba(255,255,255,0.06); font-variant-numeric:tabular-nums;
+  }
+
+  /* Monthly snapshot */
+  .snapshot-label{margin-top:34px; font-size:12px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--slate);}
+  .snapshot-grid{margin-top:14px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px;}
+  .snapshot-card{background:var(--white); border:1.5px solid var(--navy); border-radius:14px; padding:20px 22px;}
+  .snapshot-card .label{font-size:12px; font-weight:700; color:var(--slate); text-transform:uppercase; letter-spacing:0.05em;}
+  .snapshot-card .value{font-size:26px; font-weight:800; color:var(--navy); margin-top:8px;}
+  .snapshot-card .sub{font-size:12px; color:var(--blue); font-weight:700; margin-top:4px;}
+
+  /* Leads table */
+  .leads-section{margin-top:40px;}
+  .leads-section h2{font-size:17px; font-weight:800; color:var(--navy);}
+  .leads-section p{font-size:13.5px; color:var(--slate); margin-top:5px;}
+  .leads-table-wrap{margin-top:18px; background:var(--white); border:1px solid var(--line); border-radius:14px; overflow:hidden;}
+  table.leads-table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  table.leads-table th{
+    text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;
+    color:var(--slate); padding:12px 16px; background:var(--paper); border-bottom:1px solid var(--line);
+  }
+  table.leads-table td{padding:13px 16px; border-bottom:1px solid var(--line); color:var(--navy); font-variant-numeric:tabular-nums;}
+  table.leads-table tr:last-child td{border-bottom:none;}
+  .tag{display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:999px; background:rgba(45,107,228,0.10); color:var(--blue);}
+  .rec-link{font-size:12.5px; font-weight:700; color:var(--blue); text-decoration:none;}
+  .rec-link:hover{text-decoration:underline;}
+
+  footer{padding:34px 0 50px; text-align:center;}
+  footer p{font-size:12.5px; color:var(--slate);}
+
+  @media (max-width:640px){
+    .chart-card{padding:22px 18px 18px;}
+    h1.page-title{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="sample-banner">SAMPLE DATA — This is an illustration of what your live dashboard will look like, not a real account.</div>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 502 502" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(90.80,60.80)">
+          <path d="M 0 0 H 130.0 A 190.0 190.0 0 0 1 130.0 380.0 H 0 Z M 78.0 78.0 H 130.0 A 112.0 112.0 0 0 1 130.0 302.0 H 78.0 Z" fill="#FFFFFF" fill-rule="evenodd"/>
+          <path d="M 96.0 107.0 A 3.0 3.0 0 0 1 99.0 104.0 H 190.68 A 3.0 3.0 0 0 1 193.68 107.0 V 273.0 A 3.0 3.0 0 0 1 190.68 276.0 H 99.0 A 3.0 3.0 0 0 1 96.0 273.0 Z" fill="#2D6BE4"/>
+          <circle cx="178.68" cy="190.00" r="7.5" fill="#FFFFFF"/>
+        </g>
+      </svg>
+      <span>DoorKnock</span>
+    </div>
+    <div class="account">Sample Account · <strong>Wholesale Client (Demo)</strong></div>
+    <a class="back-link" href="index.html">← Back to doorknockcalls.com</a>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <h1 class="page-title">Your Dashboard</h1>
+    <p class="page-sub">This is a sample of the dashboard every DoorKnock client gets — real dials, real connects, real leads, updated daily. The numbers below are illustrative, built to the same volume we commit to on your account.</p>
+
+    <div class="filter-row">
+      <div class="filter-pill">Today</div>
+      <div class="filter-pill">Last 7 Days</div>
+      <div class="filter-pill active">Last 22 Working Days</div>
+      <div class="filter-pill">Custom Range</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="label">Dials Today</div>
+        <div class="value">3,780</div>
+        <div class="delta">↑ within daily target</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Connected Calls</div>
+        <div class="value">214</div>
+        <div class="delta flat">5.7% connect rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Qualified Leads</div>
+        <div class="value">3</div>
+        <div class="delta">handed off today</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <div>
+          <h2>Daily Dials — Last 22 Working Days</h2>
+          <p>Hover any point for that day's dials, connected calls, and leads.</p>
+        </div>
+        <button class="table-toggle" id="tableToggle" type="button">View as table</button>
+      </div>
+
+      <div class="chart-wrap">
+        <svg id="chartSvg" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Line chart of daily dials over the last 22 working days">
+          <g id="gridGroup"></g>
+          <path id="areaPath" class="area-path"></path>
+          <path id="linePath" class="line-path"></path>
+          <line id="crosshair" class="crosshair" x1="0" y1="10" x2="0" y2="250"></line>
+          <circle id="hoverDot" class="hover-dot" r="5"></circle>
+          <circle id="endDot" class="end-dot" r="5"></circle>
+          <text id="endLabel" class="axis-label" fill="#FFFFFF" font-weight="700" font-size="12"></text>
+          <rect id="hitRect" class="hit-rect" x="40" y="10" width="700" height="240"></rect>
+        </svg>
+        <div class="tooltip" id="tooltip">
+          <div class="t-date" id="ttDate"></div>
+          <div class="t-row"><span class="t-key"></span><span class="t-label">Dials</span>&nbsp;<span class="t-val" id="ttDials"></span></div>
+          <div class="t-row"><span class="t-key" style="background:#93A6BF;"></span><span class="t-label">Connected</span>&nbsp;<span class="t-val" id="ttConn"></span></div>
+          <div class="t-row"><span class="t-key" style="background:#F5A524;"></span><span class="t-label">Qualified leads</span>&nbsp;<span class="t-val" id="ttLeads"></span></div>
+        </div>
+      </div>
+
+      <div class="data-table-wrap" id="dataTableWrap">
+        <table class="data-table">
+          <thead><tr><th>Working Day</th><th>Dials</th><th>Connected Calls</th><th>Qualified Leads</th></tr></thead>
+          <tbody id="dataTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="snapshot-label">Monthly Snapshot · 22 Working Days</div>
+    <div class="snapshot-grid">
+      <div class="snapshot-card"><div class="label">Total Dials</div><div class="value">82,000</div><div class="sub">this month</div></div>
+      <div class="snapshot-card"><div class="label">Connected Calls</div><div class="value">4,400</div><div class="sub">this month</div></div>
+      <div class="snapshot-card"><div class="label">Qualified Leads</div><div class="value">55</div><div class="sub">this month</div></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Sample dashboard for illustration purposes — built to the volume DoorKnock commits to per account. Your live dashboard reflects your real calls, in real time.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var DIALS = [3779,3876,3697,3844,3769,3543,3581,3554,3693,3889,3728,3905,3600,3611,3635,3666,3614,3941,3760,3579,3791,3945];
+  var CONN  = [214,203,245,178,185,229,230,202,161,175,206,241,227,168,168,247,174,186,200,183,209,169];
+  var LEADS = [3,2,3,2,3,2,3,3,2,3,3,3,3,2,3,2,2,2,2,2,3,2];
+
+  var svgNS = "http://www.w3.org/2000/svg";
+  var padL = 44, padR = 16, padT = 14, padB = 30;
+  var vbW = 760, vbH = 300;
+  var plotW = vbW - padL - padR;
+  var plotH = vbH - padT - padB;
+
+  var yMin = 3400, yMax = 4000;
+  var yTicks = [3400,3600,3800,4000];
+
+  function xFor(i){ return padL + (i/(DIALS.length-1)) * plotW; }
+  function yFor(v){ return padT + (1 - (v - yMin)/(yMax - yMin)) * plotH; }
+
+  var gridGroup = document.getElementById('gridGroup');
+  yTicks.forEach(function(t){
+    var y = yFor(t);
+    var line = document.createElementNS(svgNS,'line');
+    line.setAttribute('class','gridline');
+    line.setAttribute('x1', padL); line.setAttribute('x2', vbW - padR);
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    gridGroup.appendChild(line);
+    var label = document.createElementNS(svgNS,'text');
+    label.setAttribute('class','axis-label');
+    label.setAttribute('x', padL - 8); label.setAttribute('y', y + 4);
+    label.setAttribute('text-anchor','end');
+    label.textContent = t.toLocaleString();
+    gridGroup.appendChild(label);
+  });
+
+  var linePts = DIALS.map(function(v,i){ return xFor(i) + ',' + yFor(v); }).join(' L ');
+  var linePath = document.getElementById('linePath');
+  linePath.setAttribute('d', 'M ' + linePts);
+
+  var areaPts = 'M ' + xFor(0) + ',' + yFor(yMin) + ' L ' + linePts + ' L ' + xFor(DIALS.length-1) + ',' + yFor(yMin) + ' Z';
+  document.getElementById('areaPath').setAttribute('d', areaPts);
+
+  var lastX = xFor(DIALS.length-1), lastY = yFor(DIALS[DIALS.length-1]);
+  var endDot = document.getElementById('endDot');
+  endDot.setAttribute('cx', lastX); endDot.setAttribute('cy', lastY);
+  var endLabel = document.getElementById('endLabel');
+  endLabel.setAttribute('x', lastX - 6); endLabel.setAttribute('y', lastY - 14);
+  endLabel.setAttribute('text-anchor','end');
+  endLabel.textContent = DIALS[DIALS.length-1].toLocaleString();
+
+  // hover interaction
+  var hitRect = document.getElementById('hitRect');
+  var hoverDot = document.getElementById('hoverDot');
+  var crosshair = document.getElementById('crosshair');
+  var tooltip = document.getElementById('tooltip');
+  var chartWrap = document.querySelector('.chart-wrap');
+  var svgEl = document.getElementById('chartSvg');
+
+  var months = ['Aug'];
+  function dateLabel(i){
+    return 'Working Day ' + (i+1);
+  }
+
+  function showTooltip(i, clientX, clientY){
+    var x = xFor(i);
+    crosshair.setAttribute('x1', x); crosshair.setAttribute('x2', x);
+    crosshair.style.opacity = 1;
+    hoverDot.setAttribute('cx', x); hoverDot.setAttribute('cy', yFor(DIALS[i]));
+    hoverDot.style.opacity = 1;
+
+    document.getElementById('ttDate').textContent = dateLabel(i);
+    document.getElementById('ttDials').textContent = DIALS[i].toLocaleString();
+    document.getElementById('ttConn').textContent = CONN[i].toLocaleString();
+    document.getElementById('ttLeads').textContent = LEADS[i];
+
+    var wrapRect = chartWrap.getBoundingClientRect();
+    var svgRect = svgEl.getBoundingClientRect();
+    var scaleX = svgRect.width / vbW;
+    var px = svgRect.left - wrapRect.left + x * scaleX;
+    var py = svgRect.top - wrapRect.top + yFor(DIALS[i]) * (svgRect.height / vbH);
+    tooltip.style.left = px + 'px';
+    tooltip.style.top = py + 'px';
+    tooltip.style.opacity = 1;
+  }
+  function hideTooltip(){
+    crosshair.style.opacity = 0;
+    hoverDot.style.opacity = 0;
+    tooltip.style.opacity = 0;
+  }
+
+  function nearestIndex(evt){
+    var svgRect = svgEl.getBoundingClientRect();
+    var scaleX = vbW / svgRect.width;
+    var localX = (evt.clientX - svgRect.left) * scaleX;
+    var idx = Math.round(((localX - padL) / plotW) * (DIALS.length-1));
+    return Math.max(0, Math.min(DIALS.length-1, idx));
+  }
+
+  hitRect.addEventListener('pointermove', function(evt){
+    showTooltip(nearestIndex(evt), evt.clientX, evt.clientY);
+  });
+  hitRect.addEventListener('pointerleave', hideTooltip);
+
+  // table view
+  var tbody = document.getElementById('dataTableBody');
+  DIALS.forEach(function(v,i){
+    var tr = document.createElement('tr');
+    var cells = [dateLabel(i), v.toLocaleString(), CONN[i].toLocaleString(), String(LEADS[i])];
+    cells.forEach(function(c){
+      var td = document.createElement('td');
+      td.textContent = c;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('tableToggle').addEventListener('click', function(){
+    var wrap = document.getElementById('dataTableWrap');
+    var open = wrap.classList.toggle('open');
+    this.textContent = open ? 'Hide table' : 'View as table';
+  });
+})();
+</script>
+
+</body>
+</html>

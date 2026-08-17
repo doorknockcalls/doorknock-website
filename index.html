@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DoorKnock — We Knock. You Close.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12294A;
+    --blue:#2D6BE4;
+    --slate:#5A6B82;
+    --paper:#F4F6F9;
+    --white:#FFFFFF;
+    --line: rgba(18,41,74,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Montserrat', sans-serif;
+    font-weight:500;
+    color:var(--navy);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.wordmark{font-weight:800; letter-spacing:-0.01em;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(244,246,249,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand svg{width:30px; height:30px; display:block;}
+  .brand span{font-size:19px; font-weight:800; color:var(--navy);}
+  .cta{
+    display:inline-flex; align-items:center; justify-content:center;
+    background:var(--blue); color:var(--white);
+    font-weight:700; font-size:14.5px;
+    padding:12px 22px; border-radius:8px;
+    text-decoration:none; white-space:nowrap;
+    box-shadow:0 1px 2px rgba(18,41,74,0.08);
+  }
+  .cta.ghost{background:transparent; color:var(--navy); border:1.5px solid var(--line); box-shadow:none;}
+
+  /* Hero */
+  .hero{
+    background:var(--navy); color:var(--white);
+    padding:96px 0 88px;
+    position:relative; overflow:hidden;
+  }
+  .hero:before{
+    content:""; position:absolute; right:-120px; top:-160px;
+    width:520px; height:520px; border-radius:50%;
+    border:2px solid rgba(45,107,228,0.35);
+  }
+  .hero:after{
+    content:""; position:absolute; right:-40px; top:-60px;
+    width:340px; height:340px; border-radius:50%;
+    border:2px solid rgba(45,107,228,0.22);
+  }
+  .hero .wrap{position:relative;}
+  .eyebrow{
+    font-size:13px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+    color:#93A6BF; margin-bottom:18px;
+  }
+  .hero h1{font-size:46px; line-height:1.12; max-width:640px; color:var(--white);}
+  .hero h1 em{font-style:normal; color:#7DA2F5;}
+  .hero p.lede{
+    margin-top:20px; max-width:560px; font-size:18px; font-weight:500;
+    color:#C7D2E3;
+  }
+  .hero-ctas{margin-top:36px; display:flex; gap:14px; flex-wrap:wrap;}
+  .trust-line{
+    margin-top:40px; font-size:13.5px; color:#93A6BF; font-weight:600;
+    display:flex; gap:28px; flex-wrap:wrap;
+  }
+  .trust-line strong{color:var(--white); font-weight:800;}
+
+  section{padding:76px 0;}
+  .kicker{
+    font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--blue); margin-bottom:10px;
+  }
+  h2.section-title{font-size:30px; color:var(--navy); max-width:600px;}
+  p.section-sub{margin-top:12px; color:var(--slate); font-size:16px; max-width:560px;}
+
+  /* What you get */
+  .grid5{margin-top:44px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px;}
+  .card{
+    background:var(--white); border:1px solid var(--line); border-radius:12px;
+    padding:26px 22px;
+  }
+  .card .num{
+    width:34px; height:34px; border-radius:8px; background:rgba(45,107,228,0.10);
+    color:var(--blue); font-weight:800; font-size:14px;
+    display:flex; align-items:center; justify-content:center; margin-bottom:16px;
+  }
+  .card h3{font-size:16.5px; color:var(--navy); font-weight:700; margin-bottom:6px;}
+  .card p{font-size:14.5px; color:var(--slate); font-weight:500;}
+
+  /* How it works */
+  .steps{margin-top:44px; display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .step{position:relative; padding-left:2px;}
+  .step .badge{
+    width:40px; height:40px; border-radius:50%; background:var(--navy); color:var(--white);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px;
+    margin-bottom:18px;
+  }
+  .step h3{font-size:17px; margin-bottom:8px;}
+  .step p{color:var(--slate); font-size:14.5px;}
+
+  /* Dashboard */
+  .dash-wrap{
+    margin-top:40px; background:var(--navy); border-radius:16px; padding:32px;
+    position:relative;
+  }
+  .sample-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(255,255,255,0.12); color:#C7D2E3;
+    font-size:11.5px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase;
+    padding:6px 12px; border-radius:999px; margin-bottom:22px;
+  }
+  .sample-tag:before{content:""; width:6px; height:6px; border-radius:50%; background:#F5A524;}
+  .dash-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;}
+  .dash-head .win-dots{display:flex; gap:6px;}
+  .dash-head .win-dots span{width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.16); display:block;}
+  .dash-head .dash-title{font-size:13px; font-weight:700; color:#93A6BF; letter-spacing:0.01em;}
+  .dash-section-label{font-size:12px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:#7DA2F5; margin:30px 0 14px;}
+  .stat-tile .mini-track{height:4px; background:rgba(255,255,255,0.14); border-radius:99px; margin-top:14px; overflow:hidden;}
+  .stat-tile .mini-fill{height:100%; background:var(--blue); border-radius:99px;}
+  .stat-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px;}
+  .stat-tile{
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.10);
+    border-radius:12px; padding:18px 18px;
+  }
+  .stat-tile .label{font-size:12px; font-weight:700; color:#93A6BF; text-transform:uppercase; letter-spacing:0.05em;}
+  .stat-tile .value{font-size:28px; font-weight:800; color:var(--white); margin-top:8px;}
+  .stat-tile .sub{font-size:12.5px; color:#7DA2F5; margin-top:4px; font-weight:600;}
+  .progress-wrap{margin-top:20px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.10); border-radius:12px; padding:18px 20px;}
+  .progress-wrap .label{font-size:12px; font-weight:700; color:#93A6BF; text-transform:uppercase; letter-spacing:0.05em; display:flex; justify-content:space-between;}
+  .progress-track{height:8px; background:rgba(255,255,255,0.12); border-radius:99px; margin-top:10px; overflow:hidden;}
+  .progress-fill{height:100%; width:68%; background:var(--blue); border-radius:99px;}
+
+  /* Pricing */
+  .price-card{
+    margin-top:40px; max-width:460px; background:var(--white); border:1.5px solid var(--navy);
+    border-radius:16px; padding:36px 34px; box-shadow:0 8px 24px rgba(18,41,74,0.08);
+  }
+  .price-card .amount{font-size:44px; font-weight:800; color:var(--navy);}
+  .price-card .amount span{font-size:16px; font-weight:600; color:var(--slate);}
+  .price-card .caption{margin-top:6px; color:var(--slate); font-size:14px; font-weight:600;}
+  .price-list{margin-top:24px; list-style:none;}
+  .price-list li{
+    display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:var(--navy);
+    padding:9px 0; border-top:1px solid var(--line);
+  }
+  .price-list li:first-child{border-top:none;}
+  .price-list li:before{content:"✓"; color:var(--blue); font-weight:800; flex-shrink:0;}
+  .price-card .cta{width:100%; margin-top:26px; padding:14px 22px;}
+  .price-note{margin-top:14px; font-size:12.5px; color:var(--slate); text-align:center;}
+
+  /* FAQ */
+  .faq{margin-top:36px; max-width:720px;}
+  details{
+    border-bottom:1px solid var(--line); padding:20px 2px;
+  }
+  details summary{
+    cursor:pointer; font-weight:700; font-size:15.5px; color:var(--navy);
+    list-style:none; display:flex; justify-content:space-between; align-items:center; gap:16px;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary:after{content:"+"; font-size:20px; color:var(--blue); font-weight:700; flex-shrink:0;}
+  details[open] summary:after{content:"–";}
+  details p{margin-top:12px; color:var(--slate); font-size:14.5px; max-width:640px;}
+
+  /* Final CTA */
+  .final-cta{background:var(--blue); color:var(--white); text-align:center; padding:64px 0;}
+  .final-cta h2{color:var(--white); font-size:28px; max-width:520px; margin:0 auto;}
+  .final-cta p{margin-top:12px; color:#DCE6FB; font-size:15px;}
+  .final-cta .cta{margin-top:26px; background:var(--white); color:var(--blue);}
+
+  footer{padding:44px 0; background:var(--navy); color:#93A6BF;}
+  footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:20px; align-items:center;}
+  footer .brand span{color:var(--white);}
+  footer .flinks{display:flex; gap:22px; font-size:13.5px; font-weight:600;}
+  footer .flinks a{text-decoration:none; color:#93A6BF;}
+  footer .fine{font-size:12px; margin-top:22px; color:#5A6B82;}
+
+  @media (max-width:760px){
+    .hero h1{font-size:34px;}
+    .steps{grid-template-columns:1fr;}
+    footer .wrap{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 502 502" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(90.80,60.80)">
+          <path d="M 0 0 H 130.0 A 190.0 190.0 0 0 1 130.0 380.0 H 0 Z M 78.0 78.0 H 130.0 A 112.0 112.0 0 0 1 130.0 302.0 H 78.0 Z" fill="#12294A" fill-rule="evenodd"/>
+          <path d="M 96.0 107.0 A 3.0 3.0 0 0 1 99.0 104.0 H 190.68 A 3.0 3.0 0 0 1 193.68 107.0 V 273.0 A 3.0 3.0 0 0 1 190.68 276.0 H 99.0 A 3.0 3.0 0 0 1 96.0 273.0 Z" fill="#2D6BE4"/>
+          <circle cx="178.68" cy="190.00" r="7.5" fill="#12294A"/>
+        </g>
+      </svg>
+      <span class="wordmark">DoorKnock</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:18px;">
+      <a href="https://wa.me/1XXXXXXXXXX" target="_blank" rel="noopener" style="font-size:14.5px; font-weight:700; color:var(--navy); text-decoration:none;">WhatsApp Us</a>
+      <a class="cta" href="mailto:dkc@doorknockcalls.com?subject=Book%20a%2015-min%20call">Book a Call</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">WE KNOCK. YOU CLOSE.</div>
+    <h1>2–3 qualified seller leads a day — <em>no excuses, no guesswork.</em></h1>
+    <p class="lede">A dedicated caller starts on your list within 2 days, dials 3,500+ times a day, and sends every motivated-seller lead straight to your CRM in under 15 minutes. Full transparency built in — you see the dials, connects, and leads on your dashboard every single day, not once a month.</p>
+    <div class="hero-ctas">
+      <a class="cta" href="https://calendly.com/PLACEHOLDER" target="_blank" rel="noopener">Book a 15-Minute Call</a>
+      <a class="cta ghost" href="#pricing" style="color:#fff; border-color:rgba(255,255,255,0.3);">See Pricing</a>
+      <a class="cta ghost" href="https://wa.me/1XXXXXXXXXX" target="_blank" rel="noopener" style="color:#fff; border-color:rgba(255,255,255,0.3);">WhatsApp Us</a>
+    </div>
+    <div class="trust-line">
+      <div><strong>3,500–4,000</strong> dials / day</div>
+      <div><strong>150–250</strong> connected calls / day</div>
+      <div><strong>2–3</strong> qualified leads / day</div>
+      <div><strong>22</strong> working days / month</div>
+    </div>
+  </div>
+</section>
+
+<section id="what-you-get">
+  <div class="wrap">
+    <div class="kicker">What You Get</div>
+    <h2 class="section-title">One dedicated caller. Everything included.</h2>
+    <p class="section-sub">No line items, no pass-through charges, no surprise add-ons. One number, paid up front.</p>
+    <div class="grid5">
+      <div class="card"><div class="num">1</div><h3>A dedicated caller</h3><p>Yours only — an experienced closer, not a script-reader. Trained specifically for real estate, never shared across accounts.</p></div>
+      <div class="card"><div class="num">2</div><h3>Full dialer setup</h3><p>Dialer seat and phone numbers, configured and managed for you.</p></div>
+      <div class="card"><div class="num">3</div><h3>2–3 qualified leads a day</h3><p>Motivated sellers only, meeting your bar. This is the SLA we're held to, not a target we aim for.</p></div>
+      <div class="card"><div class="num">4</div><h3>Live dashboard + lead sheet</h3><p>Dials, contacts, connect rate, and every lead — updated daily, shared with you.</p></div>
+      <div class="card"><div class="num">5</div><h3>Script customization</h3><p>Built around your market and your definition of a qualified lead.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="dashboard">
+  <div class="wrap">
+    <div class="kicker">The Dashboard</div>
+    <h2 class="section-title">Full visibility, every day.</h2>
+    <p class="section-sub">You see every dial, every connected call, and every lead we hand you — plus the recording for each one.</p>
+    <div class="dash-wrap">
+      <div class="dash-head">
+        <div class="win-dots"><span></span><span></span><span></span></div>
+        <div class="dash-title">DoorKnock — Client Dashboard</div>
+        <div style="width:39px;"></div>
+      </div>
+      <div class="sample-tag">Sample Data / Demo</div>
+      <div class="stat-row">
+        <div class="stat-tile">
+          <div class="label">Dials Today</div><div class="value">3,780</div><div class="sub">↑ within target</div>
+          <div class="mini-track"><div class="mini-fill" style="width:56%;"></div></div>
+        </div>
+        <div class="stat-tile">
+          <div class="label">Connected Calls</div><div class="value">214</div><div class="sub">5.7% connect rate</div>
+          <div class="mini-track"><div class="mini-fill" style="width:64%;"></div></div>
+        </div>
+        <div class="stat-tile"><div class="label">Qualified Leads</div><div class="value">3</div><div class="sub">handed off today</div></div>
+      </div>
+      <div class="dash-section-label">Monthly Snapshot · 22 Working Days</div>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="label">Total Dials</div><div class="value">82K</div><div class="sub">per month</div></div>
+        <div class="stat-tile"><div class="label">Connected Calls</div><div class="value">4,400</div><div class="sub">per month</div></div>
+        <div class="stat-tile"><div class="label">Qualified Leads</div><div class="value">55</div><div class="sub">per month</div></div>
+      </div>
+      <div style="text-align:center; margin-top:26px;">
+        <a href="doorknock-dashboard-demo.html" class="cta" style="display:inline-flex;" target="_blank" rel="noopener">View Full Interactive Demo →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="kicker">How It Works</div>
+    <h2 class="section-title">Three steps. Calling starts in 2 days.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="badge">1</div>
+        <h3>You share your list</h3>
+        <p>You supply the leads and calling window. We never source or sell data — the list stays yours.</p>
+      </div>
+      <div class="step">
+        <div class="badge">2</div>
+        <h3>We start calling</h3>
+        <p>Your dedicated caller works the list during your market's peak contact hours, on a script built for it.</p>
+      </div>
+      <div class="step">
+        <div class="badge">3</div>
+        <h3>You get leads, daily</h3>
+        <p>2–3 qualified, motivated-seller leads a day, synced to your sheet or CRM within 15 minutes — every call recorded, tracked live on your dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" style="background:var(--white); border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="kicker">Pricing</div>
+    <h2 class="section-title">One number. No hidden costs.</h2>
+    <div class="price-card">
+      <div class="amount">$800<span>/month per caller</span></div>
+      <div class="caption">All-in. Paid 100% up front, monthly.</div>
+      <ul class="price-list">
+        <li>Dedicated trained caller</li>
+        <li>Dialer seat &amp; phone numbers (DIDs)</li>
+        <li>Live dashboard &amp; dedicated lead sheet</li>
+        <li>Script customization</li>
+        <li>Full management — no hiring, no oversight needed</li>
+      </ul>
+      <a class="cta" href="mailto:dkc@doorknockcalls.com?subject=Book%20a%2015-min%20call">Book a 15-Minute Call</a>
+      <div class="price-note">Unsure about paying up front? Run a 2-week paid pilot at cost — $299, zero markup.</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="kicker">FAQ</div>
+    <h2 class="section-title">The questions everyone asks</h2>
+    <div class="faq">
+      <details open>
+        <summary>What's the real ROI on $800/month?</summary>
+        <p>At 2–3 qualified leads a day, $800 works out to roughly $12–18 per qualified lead — with every dial logged and every call recorded. If one closed deal is worth $8–10k to you, a single lead can pay for the entire month several times over.</p>
+      </details>
+      <details>
+        <summary>Why pay 100% up front?</summary>
+        <p>Because we buy your dialer seat and phone numbers before the first call goes out. If that's a barrier for a first month, ask us about a two-week paid pilot so you can see real leads before committing.</p>
+      </details>
+      <details>
+        <summary>Where are your callers based?</summary>
+        <p>Egypt. Native-level English, trained specifically on real estate acquisitions, calling your market's peak contact windows. Judge it on the call recordings, not the postcode.</p>
+      </details>
+      <details>
+        <summary>Do you comply with TCPA/DNC regulations?</summary>
+        <p>Yes — every list is scrubbed against the National Do Not Call Registry through our dialer before a single call goes out. Calls are made by a live, dedicated caller — never an autodialer or a prerecorded message.</p>
+      </details>
+      <details>
+        <summary>What if I don't get 2–3 leads a day?</summary>
+        <p>Then we're not doing our job. Flag it anytime and we'll fix it fast — no need to wait until the end of the month.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2>Ready to see real leads on your dashboard?</h2>
+    <p>15 minutes. No pressure, no hard sell — just the numbers.</p>
+    <a class="cta" href="mailto:dkc@doorknockcalls.com?subject=Book%20a%2015-min%20call">Book a 15-Minute Call</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 502 502" xmlns="http://www.w3.org/2000/svg" width="26" height="26">
+        <rect width="501.6" height="501.6" fill="#12294A"/>
+        <g transform="translate(90.80,60.80)">
+          <path d="M 0 0 H 130.0 A 190.0 190.0 0 0 1 130.0 380.0 H 0 Z M 78.0 78.0 H 130.0 A 112.0 112.0 0 0 1 130.0 302.0 H 78.0 Z" fill="#FFFFFF" fill-rule="evenodd"/>
+          <path d="M 96.0 107.0 A 3.0 3.0 0 0 1 99.0 104.0 H 190.68 A 3.0 3.0 0 0 1 193.68 107.0 V 273.0 A 3.0 3.0 0 0 1 190.68 276.0 H 99.0 A 3.0 3.0 0 0 1 96.0 273.0 Z" fill="#2D6BE4"/>
+          <circle cx="178.68" cy="190.00" r="7.5" fill="#FFFFFF"/>
+        </g>
+      </svg>
+      <span style="font-weight:800;">DoorKnock</span>
+    </div>
+    <div class="flinks">
+      <a href="mailto:dkc@doorknockcalls.com">dkc@doorknockcalls.com</a>
+      <a href="https://wa.me/1XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://calendly.com/PLACEHOLDER" target="_blank" rel="noopener">Book a Call</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="fine">© 2026 DoorKnock. Outbound cold-calling partner for US real estate wholesalers &amp; investors.</div>
+  </div>
+</footer>
+
+</body>
+</html>
