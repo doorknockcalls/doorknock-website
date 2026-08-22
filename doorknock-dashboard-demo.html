@@ -1,382 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DoorKnock — Sample Client Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
 <style>
-  :root{
-    --navy:#12294A;
-    --navy2:#182F53;
-    --blue:#2D6BE4;
-    --slate:#5A6B82;
-    --paper:#F4F6F9;
-    --white:#FFFFFF;
-    --line: rgba(18,41,74,0.10);
-    --amber:#F5A524;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    font-family:'Montserrat', sans-serif;
-    font-weight:500;
-    color:var(--navy);
-    background:var(--paper);
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
-  a{color:inherit;}
+:root{
+  --navy:#0F1D36; --navy-2:#16294A; --navy-3:#1E3358; --line:#2B4468;
+  --ground:#F3F5F9; --card:#FFFFFF; --edge:#DCE3EE;
+  --ink:#0F1D36; --ink-2:#4C5D7A; --ink-3:#7A8AA5;
+  --amber:#F0A028; --amber-ink:#231402;
+  --good:#12855A; --blue:#4C8DF6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ground);color:var(--ink);font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
 
-  /* Sample banner */
-  .sample-banner{
-    background:var(--amber); color:#3A2600; text-align:center;
-    font-size:13px; font-weight:800; letter-spacing:0.03em;
-    padding:10px 16px;
-  }
+.banner{background:var(--amber);color:var(--amber-ink);text-align:center;padding:11px 20px;
+  font-weight:600;font-size:12.5px;letter-spacing:.005em}
+.topbar{background:var(--navy);color:#fff;padding:16px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:-.01em}
+.logo .mark{width:30px;height:30px;border-radius:8px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700;font-size:17px}
+.who{margin-left:auto;color:#9FB2CE;font-size:14px}
+.who b{color:#fff}
+.back{color:#9FB2CE;text-decoration:none;font-size:14px}
+.back:hover{color:#fff}
 
-  /* Top bar */
-  .topbar{
-    background:var(--navy); color:var(--white);
-    padding:20px 0;
-  }
-  .topbar .wrap{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;}
-  .brand{display:flex; align-items:center; gap:10px;}
-  .brand svg{width:28px; height:28px; display:block;}
-  .brand span{font-size:18px; font-weight:800;}
-  .account{font-size:13px; color:#93A6BF; font-weight:600;}
-  .account strong{color:var(--white);}
-  .back-link{font-size:13.5px; font-weight:700; color:#C7D2E3; text-decoration:none;}
-  .back-link:hover{color:var(--white);}
+.wrap{max-width:1120px;margin:0 auto;padding:34px 24px 70px}
+h1{font-size:31px;font-weight:600;letter-spacing:-.02em}
+.sub{color:var(--ink-2);margin-top:8px;max-width:70ch}
 
-  main{padding:40px 0 72px;}
-  h1.page-title{font-size:24px; font-weight:800; color:var(--navy);}
-  p.page-sub{margin-top:6px; color:var(--slate); font-size:14.5px; max-width:640px;}
+.pills{display:flex;gap:10px;margin:26px 0 22px;flex-wrap:wrap}
+.pill{border:1px solid var(--edge);background:var(--card);color:var(--ink-2);border-radius:999px;
+  padding:9px 20px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit}
+.pill:hover{border-color:var(--ink-3);color:var(--ink)}
+.pill[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pill:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 
-  /* Filter row */
-  .filter-row{
-    margin-top:26px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-  }
-  .filter-pill{
-    font-size:13px; font-weight:700; padding:8px 16px; border-radius:999px;
-    border:1.5px solid var(--line); background:var(--white); color:var(--slate);
-    cursor:default;
-  }
-  .filter-pill.active{background:var(--navy); color:var(--white); border-color:var(--navy);}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.tile{background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:22px 24px}
+.tile dt{font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.tile dd{font-size:44px;font-weight:700;letter-spacing:-.03em;margin-top:10px;line-height:1}
+.tile .note{font-size:14px;font-weight:600;color:var(--good);margin-top:9px}
 
-  /* Stat tiles (light) */
-  .stat-grid{margin-top:22px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px;}
-  .stat-card{
-    background:var(--white); border:1px solid var(--line); border-radius:14px; padding:20px 22px;
-  }
-  .stat-card .label{font-size:12px; font-weight:700; color:var(--slate); text-transform:uppercase; letter-spacing:0.05em;}
-  .stat-card .value{font-size:30px; font-weight:800; color:var(--navy); margin-top:8px;}
-  .stat-card .delta{font-size:12.5px; font-weight:700; margin-top:5px; color:#1E9E5A;}
-  .stat-card .delta.flat{color:var(--slate);}
+.panel{background:var(--navy);border-radius:16px;padding:26px 28px 22px;margin-top:18px;color:#fff}
+.phead{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.phead h2{font-size:20px;font-weight:600}
+.phead p{color:#9FB2CE;font-size:14px;margin-top:5px}
+.toggle{margin-left:auto;display:flex;gap:8px}
+.tbtn{background:var(--navy-3);border:1px solid var(--line);color:#C7D6EC;border-radius:8px;
+  padding:8px 15px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.tbtn[aria-pressed="true"]{background:#fff;color:var(--navy);border-color:#fff}
+.tbtn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 
-  /* Chart card */
-  .chart-card{
-    margin-top:28px; background:var(--navy); border-radius:16px; padding:30px 30px 22px;
-  }
-  .chart-head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;}
-  .chart-head h2{font-size:17px; font-weight:800; color:var(--white);}
-  .chart-head p{font-size:13px; color:#93A6BF; margin-top:4px;}
-  .table-toggle{
-    font-size:12.5px; font-weight:700; color:#C7D2E3; background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.16); padding:8px 14px; border-radius:8px; cursor:pointer;
-  }
-  .table-toggle:hover{background:rgba(255,255,255,0.14);}
-  .chart-wrap{position:relative; margin-top:18px;}
-  #chartSvg{width:100%; height:auto; display:block; overflow:visible;}
-  .gridline{stroke:rgba(255,255,255,0.10); stroke-width:1;}
-  .axis-label{fill:#7C8FAC; font-size:11px; font-family:'Montserrat',sans-serif; font-weight:600;}
-  .line-path{fill:none; stroke:var(--blue); stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
-  .area-path{fill:var(--blue); opacity:0.10;}
-  .end-dot{fill:var(--blue); stroke:var(--navy); stroke-width:2;}
-  .hover-dot{fill:var(--blue); stroke:var(--navy); stroke-width:2; opacity:0;}
-  .crosshair{stroke:rgba(255,255,255,0.28); stroke-width:1; opacity:0;}
-  .hit-rect{fill:transparent;}
-  .tooltip{
-    position:absolute; pointer-events:none; background:#0B1B32; border:1px solid rgba(255,255,255,0.14);
-    border-radius:10px; padding:10px 14px; font-size:12.5px; color:#C7D2E3; opacity:0; transform:translate(-50%,-110%);
-    white-space:nowrap; box-shadow:0 8px 20px rgba(0,0,0,0.3); z-index:5;
-  }
-  .tooltip .t-date{font-weight:700; color:var(--white); margin-bottom:6px;}
-  .tooltip .t-row{display:flex; align-items:center; gap:8px; margin-top:3px;}
-  .tooltip .t-key{width:8px; height:2px; background:var(--blue); display:inline-block; border-radius:2px;}
-  .tooltip .t-val{font-weight:800; color:var(--white);}
-  .tooltip .t-label{color:#93A6BF;}
+.chartwrap{position:relative;margin-top:18px}
+svg{display:block;width:100%;height:auto}
+.tip{position:absolute;pointer-events:none;background:#fff;color:var(--ink);border-radius:10px;
+  padding:11px 13px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.28);opacity:0;transition:opacity .12s;min-width:168px}
+.tip b{display:block;font-size:13px;margin-bottom:6px;color:var(--ink)}
+.tip .r{display:flex;justify-content:space-between;gap:14px;color:var(--ink-2);font-size:13px;line-height:1.7}
+.tip .r span:last-child{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
 
-  .data-table-wrap{margin-top:20px; display:none; overflow-x:auto;}
-  .data-table-wrap.open{display:block;}
-  table.data-table{width:100%; border-collapse:collapse; font-size:13px;}
-  table.data-table th{
-    text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;
-    color:#93A6BF; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.14); font-variant-numeric:tabular-nums;
-  }
-  table.data-table td{
-    padding:8px 12px; color:#E4E9F1; border-bottom:1px solid rgba(255,255,255,0.06); font-variant-numeric:tabular-nums;
-  }
+.tablewrap{margin-top:18px;overflow-x:auto;max-height:340px;overflow-y:auto;border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--navy-2)}
+th{position:sticky;top:0;background:var(--navy-3);color:#C7D6EC;text-align:left;padding:11px 14px;
+  font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+td{padding:11px 14px;border-top:1px solid var(--line);color:#E4ECF8;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:hover td{background:var(--navy-3)}
+.hide{display:none}
 
-  /* Monthly snapshot */
-  .snapshot-label{margin-top:34px; font-size:12px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--slate);}
-  .snapshot-grid{margin-top:14px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px;}
-  .snapshot-card{background:var(--white); border:1.5px solid var(--navy); border-radius:14px; padding:20px 22px;}
-  .snapshot-card .label{font-size:12px; font-weight:700; color:var(--slate); text-transform:uppercase; letter-spacing:0.05em;}
-  .snapshot-card .value{font-size:26px; font-weight:800; color:var(--navy); margin-top:8px;}
-  .snapshot-card .sub{font-size:12px; color:var(--blue); font-weight:700; margin-top:4px;}
+.leads{margin-top:34px}
+.leads h2{font-size:21px;font-weight:600;letter-spacing:-.01em}
+.leads p.sub{margin-top:7px;font-size:14.5px}
+.lead{background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:20px 22px;margin-top:14px}
+.lhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.lhead .addr{font-weight:600;font-size:16.5px}
+.chip{font-family:inherit;font-weight:600;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;
+  background:#E7F4EE;color:var(--good);border-radius:999px;padding:4px 11px;font-weight:600}
+.chip.t{background:#FDF0DC;color:#8A5100}
+.lhead .time{margin-left:auto;color:var(--ink-3);font-size:13px;font-variant-numeric:tabular-nums}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:16px}
+.f dt{font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.f dd{margin-top:5px;font-weight:600;font-size:15px}
+.quote{margin-top:16px;border-left:3px solid var(--amber);background:#FBFCFE;padding:12px 16px;
+  color:var(--ink-2);font-size:14.5px;border-radius:0 8px 8px 0}
+.quote span{display:block;font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
 
-  /* Leads table */
-  .leads-section{margin-top:40px;}
-  .leads-section h2{font-size:17px; font-weight:800; color:var(--navy);}
-  .leads-section p{font-size:13.5px; color:var(--slate); margin-top:5px;}
-  .leads-table-wrap{margin-top:18px; background:var(--white); border:1px solid var(--line); border-radius:14px; overflow:hidden;}
-  table.leads-table{width:100%; border-collapse:collapse; font-size:13.5px;}
-  table.leads-table th{
-    text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;
-    color:var(--slate); padding:12px 16px; background:var(--paper); border-bottom:1px solid var(--line);
-  }
-  table.leads-table td{padding:13px 16px; border-bottom:1px solid var(--line); color:var(--navy); font-variant-numeric:tabular-nums;}
-  table.leads-table tr:last-child td{border-bottom:none;}
-  .tag{display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:999px; background:rgba(45,107,228,0.10); color:var(--blue);}
-  .rec-link{font-size:12.5px; font-weight:700; color:var(--blue); text-decoration:none;}
-  .rec-link:hover{text-decoration:underline;}
-
-  footer{padding:34px 0 50px; text-align:center;}
-  footer p{font-size:12.5px; color:var(--slate);}
-
-  @media (max-width:640px){
-    .chart-card{padding:22px 18px 18px;}
-    h1.page-title{font-size:20px;}
-  }
+.foot{margin-top:44px;padding-top:22px;border-top:1px solid var(--edge);display:flex;gap:20px;
+  flex-wrap:wrap;align-items:center;color:var(--ink-3);font-size:14px}
+.foot b{color:var(--ink)}
+.cta{margin-left:auto;background:var(--navy);color:#fff;text-decoration:none;border-radius:10px;
+  padding:12px 22px;font-weight:600;font-size:15px}
+.cta:hover{background:#16294A}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 
-<div class="sample-banner">SAMPLE DATA — This is an illustration of what your live dashboard will look like, not a real account.</div>
+<div class="banner">SAMPLE DATA — an illustration of what your dashboard shows. Not a real client account.</div>
 
 <div class="topbar">
-  <div class="wrap">
-    <div class="brand">
-      <svg viewBox="0 0 502 502" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(90.80,60.80)">
-          <path d="M 0 0 H 130.0 A 190.0 190.0 0 0 1 130.0 380.0 H 0 Z M 78.0 78.0 H 130.0 A 112.0 112.0 0 0 1 130.0 302.0 H 78.0 Z" fill="#FFFFFF" fill-rule="evenodd"/>
-          <path d="M 96.0 107.0 A 3.0 3.0 0 0 1 99.0 104.0 H 190.68 A 3.0 3.0 0 0 1 193.68 107.0 V 273.0 A 3.0 3.0 0 0 1 190.68 276.0 H 99.0 A 3.0 3.0 0 0 1 96.0 273.0 Z" fill="#2D6BE4"/>
-          <circle cx="178.68" cy="190.00" r="7.5" fill="#FFFFFF"/>
-        </g>
-      </svg>
-      <span>DoorKnock</span>
+  <div class="logo"><span class="mark">D</span> DoorKnock</div>
+  <div class="who">Sample Account · <b>Wholesale Client (Demo)</b></div>
+  <a class="back" href="https://doorknockcalls.com">← Back to doorknockcalls.com</a>
+</div>
+
+<div class="wrap">
+  <h1>Your Dashboard</h1>
+  <p class="sub">Every dial, every connected call, and every qualified lead your caller produces — updated daily. The numbers below are illustrative, built to the same volume we commit to on your account.</p>
+
+  <div class="pills" role="group" aria-label="Time period">
+    <button class="pill" data-range="1" aria-pressed="false">Today</button>
+    <button class="pill" data-range="7" aria-pressed="false">Last 7 days</button>
+    <button class="pill" data-range="22" aria-pressed="true">Last 22 working days</button>
+  </div>
+
+  <dl class="tiles">
+    <div class="tile"><dt>Dials</dt><dd class="num" id="mDials">—</dd><div class="note" id="nDials">&nbsp;</div></div>
+    <div class="tile"><dt>Connected calls</dt><dd class="num" id="mConn">—</dd><div class="note" id="nConn">&nbsp;</div></div>
+    <div class="tile"><dt>Qualified leads</dt><dd class="num" id="mLeads">—</dd><div class="note" id="nLeads">&nbsp;</div></div>
+  </dl>
+
+  <div class="panel">
+    <div class="phead">
+      <div>
+        <h2 id="chartTitle">Daily dials</h2>
+        <p>Hover any point for that day's dials, connects and leads.</p>
+      </div>
+      <div class="toggle">
+        <button class="tbtn" id="bChart" aria-pressed="true">Chart</button>
+        <button class="tbtn" id="bTable" aria-pressed="false">Table</button>
+      </div>
     </div>
-    <div class="account">Sample Account · <strong>Wholesale Client (Demo)</strong></div>
-    <a class="back-link" href="index.html">← Back to doorknockcalls.com</a>
+
+    <div class="chartwrap" id="chartwrap">
+      <svg id="chart" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-label="Daily dials chart"></svg>
+      <div class="tip" id="tip"></div>
+    </div>
+
+    <div class="tablewrap hide" id="tablewrap">
+      <table>
+        <thead><tr><th>Date</th><th>Dials</th><th>Connected</th><th>Connect rate</th><th>Qualified leads</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="leads">
+    <h2>Qualified leads handed over today</h2>
+    <p class="sub">This is what reaches you. Every one has been through QA — intent to sell, a timeline, the condition of the property, and confirmed ownership. Anything that misses one of those never gets this far.</p>
+
+    <div class="lead">
+      <div class="lhead">
+        <span class="addr">4412 Whitfield Ave, Houston, TX 77009</span>
+        <span class="chip">Qualified</span><span class="chip t">Motivated</span>
+        <span class="time">09:42</span>
+      </div>
+      <div class="grid4">
+        <div class="f"><dt>Asking</dt><dd>$185,000</dd></div>
+        <div class="f"><dt>Timeline</dt><dd>30–45 days</dd></div>
+        <div class="f"><dt>Condition</dt><dd>Needs roof + HVAC</dd></div>
+        <div class="f"><dt>Ownership</dt><dd>Confirmed on call</dd></div>
+      </div>
+      <div class="quote"><span>What the seller said</span>Inherited it from her mother last year, lives out of state, doesn't want to manage the repairs. Open to a cash offer if it closes clean.</div>
+    </div>
+
+    <div class="lead">
+      <div class="lhead">
+        <span class="addr">1108 Sable Creek Dr, Katy, TX 77494</span>
+        <span class="chip">Qualified</span>
+        <span class="time">13:15</span>
+      </div>
+      <div class="grid4">
+        <div class="f"><dt>Asking</dt><dd>$262,000</dd></div>
+        <div class="f"><dt>Timeline</dt><dd>60–90 days</dd></div>
+        <div class="f"><dt>Condition</dt><dd>Livable, dated kitchen</dd></div>
+        <div class="f"><dt>Ownership</dt><dd>Confirmed on call</dd></div>
+      </div>
+      <div class="quote"><span>What the seller said</span>Relocating for work in the autumn. Not in a rush, but would take a fair cash number to avoid listing and showings.</div>
+    </div>
+
+    <div class="lead">
+      <div class="lhead">
+        <span class="addr">733 Marlow St, Pasadena, TX 77502</span>
+        <span class="chip">Qualified</span><span class="chip t">Motivated</span>
+        <span class="time">16:58</span>
+      </div>
+      <div class="grid4">
+        <div class="f"><dt>Asking</dt><dd>Open to offers</dd></div>
+        <div class="f"><dt>Timeline</dt><dd>ASAP</dd></div>
+        <div class="f"><dt>Condition</dt><dd>Vacant 8 months</dd></div>
+        <div class="f"><dt>Ownership</dt><dd>Confirmed on call</dd></div>
+      </div>
+      <div class="quote"><span>What the seller said</span>Behind on taxes and wants it gone before the next assessment. Asked what a cash close would look like.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div><b>DoorKnock Calls</b> — We Knock. You Close.<br>One dedicated caller. Your leads are never shared, resold, or worked twice.</div>
+    <a class="cta" href="https://calendly.com/dkc-doorknockcalls/doorknock-15-min-intro-call">Book 15 minutes</a>
   </div>
 </div>
 
-<main>
-  <div class="wrap">
-    <h1 class="page-title">Your Dashboard</h1>
-    <p class="page-sub">This is a sample of the dashboard every DoorKnock client gets — real dials, real connects, real leads, updated daily. The numbers below are illustrative, built to the same volume we commit to on your account.</p>
-
-    <div class="filter-row">
-      <div class="filter-pill">Today</div>
-      <div class="filter-pill">Last 7 Days</div>
-      <div class="filter-pill active">Last 22 Working Days</div>
-      <div class="filter-pill">Custom Range</div>
-    </div>
-
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="label">Dials Today</div>
-        <div class="value">3,780</div>
-        <div class="delta">↑ within daily target</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Connected Calls</div>
-        <div class="value">214</div>
-        <div class="delta flat">5.7% connect rate</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Qualified Leads</div>
-        <div class="value">3</div>
-        <div class="delta">handed off today</div>
-      </div>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-head">
-        <div>
-          <h2>Daily Dials — Last 22 Working Days</h2>
-          <p>Hover any point for that day's dials, connected calls, and leads.</p>
-        </div>
-        <button class="table-toggle" id="tableToggle" type="button">View as table</button>
-      </div>
-
-      <div class="chart-wrap">
-        <svg id="chartSvg" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Line chart of daily dials over the last 22 working days">
-          <g id="gridGroup"></g>
-          <path id="areaPath" class="area-path"></path>
-          <path id="linePath" class="line-path"></path>
-          <line id="crosshair" class="crosshair" x1="0" y1="10" x2="0" y2="250"></line>
-          <circle id="hoverDot" class="hover-dot" r="5"></circle>
-          <circle id="endDot" class="end-dot" r="5"></circle>
-          <text id="endLabel" class="axis-label" fill="#FFFFFF" font-weight="700" font-size="12"></text>
-          <rect id="hitRect" class="hit-rect" x="40" y="10" width="700" height="240"></rect>
-        </svg>
-        <div class="tooltip" id="tooltip">
-          <div class="t-date" id="ttDate"></div>
-          <div class="t-row"><span class="t-key"></span><span class="t-label">Dials</span>&nbsp;<span class="t-val" id="ttDials"></span></div>
-          <div class="t-row"><span class="t-key" style="background:#93A6BF;"></span><span class="t-label">Connected</span>&nbsp;<span class="t-val" id="ttConn"></span></div>
-          <div class="t-row"><span class="t-key" style="background:#F5A524;"></span><span class="t-label">Qualified leads</span>&nbsp;<span class="t-val" id="ttLeads"></span></div>
-        </div>
-      </div>
-
-      <div class="data-table-wrap" id="dataTableWrap">
-        <table class="data-table">
-          <thead><tr><th>Working Day</th><th>Dials</th><th>Connected Calls</th><th>Qualified Leads</th></tr></thead>
-          <tbody id="dataTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="snapshot-label">Monthly Snapshot · 22 Working Days</div>
-    <div class="snapshot-grid">
-      <div class="snapshot-card"><div class="label">Total Dials</div><div class="value">82,000</div><div class="sub">this month</div></div>
-      <div class="snapshot-card"><div class="label">Connected Calls</div><div class="value">4,400</div><div class="sub">this month</div></div>
-      <div class="snapshot-card"><div class="label">Qualified Leads</div><div class="value">55</div><div class="sub">this month</div></div>
-    </div>
-  </div>
-</main>
-
-<footer>
-  <div class="wrap">
-    <p>Sample dashboard for illustration purposes — built to the volume DoorKnock commits to per account. Your live dashboard reflects your real calls, in real time.</p>
-  </div>
-</footer>
-
 <script>
-(function(){
-  var DIALS = [3779,3876,3697,3844,3769,3543,3581,3554,3693,3889,3728,3905,3600,3611,3635,3666,3614,3941,3760,3579,3791,3945];
-  var CONN  = [214,203,245,178,185,229,230,202,161,175,206,241,227,168,168,247,174,186,200,183,209,169];
-  var LEADS = [3,2,3,2,3,2,3,3,2,3,3,3,3,2,3,2,2,2,2,2,3,2];
-
-  var svgNS = "http://www.w3.org/2000/svg";
-  var padL = 44, padR = 16, padT = 14, padB = 30;
-  var vbW = 760, vbH = 300;
-  var plotW = vbW - padL - padR;
-  var plotH = vbH - padT - padB;
-
-  var yMin = 3400, yMax = 4000;
-  var yTicks = [3400,3600,3800,4000];
-
-  function xFor(i){ return padL + (i/(DIALS.length-1)) * plotW; }
-  function yFor(v){ return padT + (1 - (v - yMin)/(yMax - yMin)) * plotH; }
-
-  var gridGroup = document.getElementById('gridGroup');
-  yTicks.forEach(function(t){
-    var y = yFor(t);
-    var line = document.createElementNS(svgNS,'line');
-    line.setAttribute('class','gridline');
-    line.setAttribute('x1', padL); line.setAttribute('x2', vbW - padR);
-    line.setAttribute('y1', y); line.setAttribute('y2', y);
-    gridGroup.appendChild(line);
-    var label = document.createElementNS(svgNS,'text');
-    label.setAttribute('class','axis-label');
-    label.setAttribute('x', padL - 8); label.setAttribute('y', y + 4);
-    label.setAttribute('text-anchor','end');
-    label.textContent = t.toLocaleString();
-    gridGroup.appendChild(label);
-  });
-
-  var linePts = DIALS.map(function(v,i){ return xFor(i) + ',' + yFor(v); }).join(' L ');
-  var linePath = document.getElementById('linePath');
-  linePath.setAttribute('d', 'M ' + linePts);
-
-  var areaPts = 'M ' + xFor(0) + ',' + yFor(yMin) + ' L ' + linePts + ' L ' + xFor(DIALS.length-1) + ',' + yFor(yMin) + ' Z';
-  document.getElementById('areaPath').setAttribute('d', areaPts);
-
-  var lastX = xFor(DIALS.length-1), lastY = yFor(DIALS[DIALS.length-1]);
-  var endDot = document.getElementById('endDot');
-  endDot.setAttribute('cx', lastX); endDot.setAttribute('cy', lastY);
-  var endLabel = document.getElementById('endLabel');
-  endLabel.setAttribute('x', lastX - 6); endLabel.setAttribute('y', lastY - 14);
-  endLabel.setAttribute('text-anchor','end');
-  endLabel.textContent = DIALS[DIALS.length-1].toLocaleString();
-
-  // hover interaction
-  var hitRect = document.getElementById('hitRect');
-  var hoverDot = document.getElementById('hoverDot');
-  var crosshair = document.getElementById('crosshair');
-  var tooltip = document.getElementById('tooltip');
-  var chartWrap = document.querySelector('.chart-wrap');
-  var svgEl = document.getElementById('chartSvg');
-
-  var months = ['Aug'];
-  function dateLabel(i){
-    return 'Working Day ' + (i+1);
-  }
-
-  function showTooltip(i, clientX, clientY){
-    var x = xFor(i);
-    crosshair.setAttribute('x1', x); crosshair.setAttribute('x2', x);
-    crosshair.style.opacity = 1;
-    hoverDot.setAttribute('cx', x); hoverDot.setAttribute('cy', yFor(DIALS[i]));
-    hoverDot.style.opacity = 1;
-
-    document.getElementById('ttDate').textContent = dateLabel(i);
-    document.getElementById('ttDials').textContent = DIALS[i].toLocaleString();
-    document.getElementById('ttConn').textContent = CONN[i].toLocaleString();
-    document.getElementById('ttLeads').textContent = LEADS[i];
-
-    var wrapRect = chartWrap.getBoundingClientRect();
-    var svgRect = svgEl.getBoundingClientRect();
-    var scaleX = svgRect.width / vbW;
-    var px = svgRect.left - wrapRect.left + x * scaleX;
-    var py = svgRect.top - wrapRect.top + yFor(DIALS[i]) * (svgRect.height / vbH);
-    tooltip.style.left = px + 'px';
-    tooltip.style.top = py + 'px';
-    tooltip.style.opacity = 1;
-  }
-  function hideTooltip(){
-    crosshair.style.opacity = 0;
-    hoverDot.style.opacity = 0;
-    tooltip.style.opacity = 0;
-  }
-
-  function nearestIndex(evt){
-    var svgRect = svgEl.getBoundingClientRect();
-    var scaleX = vbW / svgRect.width;
-    var localX = (evt.clientX - svgRect.left) * scaleX;
-    var idx = Math.round(((localX - padL) / plotW) * (DIALS.length-1));
-    return Math.max(0, Math.min(DIALS.length-1, idx));
-  }
-
-  hitRect.addEventListener('pointermove', function(evt){
-    showTooltip(nearestIndex(evt), evt.clientX, evt.clientY);
-  });
-  hitRect.addEventListener('pointerleave', hideTooltip);
-
-  // table view
-  var tbody = document.getElementById('dataTableBody');
-  DIALS.forEach(function(v,i){
-    var tr = document.createElement('tr');
-    var cells = [dateLabel(i), v.toLocaleString(), CONN[i].toLocaleString(), String(LEADS[i])];
-    cells.forEach(function(c){
-      var td = document.createElement('td');
-      td.textContent = c;
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
-
-  document.getElementById('tableToggle').addEventListener('click', function(){
-    var wrap = document.getElementById('dataTableWrap');
-    var open = wrap.classList.toggle('open');
-    this.textContent = open ? 'Hide table' : 'View as table';
+/* deterministic sample series — 22 working days */
+const DAYS = (() => {
+  const seed = [3612,3894,3455,3760,3980,3521,3705,3860,3418,3945,3672,3540,3820,3961,3487,3733,3902,3596,3648,3855,3412,3780];
+  const labels = ["Jul 24","Jul 25","Jul 28","Jul 29","Jul 30","Jul 31","Aug 1","Aug 4","Aug 5","Aug 6","Aug 7","Aug 8",
+                  "Aug 11","Aug 12","Aug 13","Aug 14","Aug 15","Aug 18","Aug 19","Aug 20","Aug 21","Aug 22"];
+  return seed.map((d,i) => {
+    const conn = Math.round(d * (0.048 + ((i*37)%23)/1000));
+    const leads = [2,3,2,3,3,2,3,2,2,3,3,2,3,3,2,2,3,2,3,3,2,3][i];
+    return {label: labels[i], dials: d, conn, leads};
   });
 })();
-</script>
 
+const fmt = n => n.toLocaleString('en-US');
+let range = 22, mode = 'chart';
+
+function slice(){ return DAYS.slice(DAYS.length - range); }
+
+function paintTiles(){
+  const d = slice();
+  const dials = d.reduce((a,x)=>a+x.dials,0);
+  const conn  = d.reduce((a,x)=>a+x.conn,0);
+  const leads = d.reduce((a,x)=>a+x.leads,0);
+  document.getElementById('mDials').textContent = fmt(dials);
+  document.getElementById('mConn').textContent  = fmt(conn);
+  document.getElementById('mLeads').textContent = fmt(leads);
+  document.getElementById('nDials').textContent = range === 1 ? 'within daily target' : fmt(Math.round(dials/d.length)) + ' a day on average';
+  document.getElementById('nConn').textContent  = (conn/dials*100).toFixed(1) + '% connect rate';
+  document.getElementById('nLeads').textContent = range === 1 ? 'handed off today' : (leads/d.length).toFixed(1) + ' a day on average';
+  document.getElementById('chartTitle').textContent =
+    range === 1 ? 'Today' : (range === 7 ? 'Daily dials — last 7 days' : 'Daily dials — last 22 working days');
+}
+
+function paintChart(){
+  const d = slice(), svg = document.getElementById('chart');
+  const W = 1000, H = 300, padT = 28, padB = 26;
+  const max = Math.max(...d.map(x=>x.dials)) * 1.04;
+  const min = Math.min(...d.map(x=>x.dials)) * 0.94;
+  const X = i => d.length === 1 ? W/2 : (i/(d.length-1))*(W-24)+12;
+  const Y = v => padT + (1-(v-min)/(max-min))*(H-padT-padB);
+  const pts = d.map((x,i)=>[X(i),Y(x.dials)]);
+  const line = pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+  const area = line + ` ${W},${H} 0,${H}`;
+  svg.innerHTML =
+    `<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4C8DF6" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#4C8DF6" stop-opacity="0"/></linearGradient></defs>
+     <line x1="0" y1="${padT}" x2="${W}" y2="${padT}" stroke="#2B4468"/>
+     <polygon points="${area}" fill="url(#g)"/>
+     <polyline points="${line}" fill="none" stroke="#4C8DF6" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+     ${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="14" fill="transparent" data-i="${i}" style="cursor:pointer"/>`).join('')}
+     ${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#4C8DF6" pointer-events="none"/>`).join('')}`;
+}
+
+function paintTable(){
+  document.getElementById('tbody').innerHTML = slice().map(x =>
+    `<tr><td>${x.label}</td><td>${fmt(x.dials)}</td><td>${fmt(x.conn)}</td>
+     <td>${(x.conn/x.dials*100).toFixed(1)}%</td><td>${x.leads}</td></tr>`).join('');
+}
+
+function render(){ paintTiles(); paintChart(); paintTable(); }
+
+/* tooltip */
+const tip = document.getElementById('tip'), cw = document.getElementById('chartwrap');
+cw.addEventListener('mousemove', e => {
+  const t = e.target;
+  if (t.tagName === 'circle' && t.dataset.i !== undefined) {
+    const x = slice()[+t.dataset.i];
+    tip.innerHTML = `<b>${x.label}</b>
+      <div class="r"><span>Dials</span><span>${fmt(x.dials)}</span></div>
+      <div class="r"><span>Connected</span><span>${fmt(x.conn)}</span></div>
+      <div class="r"><span>Qualified leads</span><span>${x.leads}</span></div>`;
+    const r = cw.getBoundingClientRect();
+    let left = e.clientX - r.left + 16;
+    if (left > r.width - 190) left = e.clientX - r.left - 190;
+    tip.style.left = left + 'px';
+    tip.style.top = Math.max(0, e.clientY - r.top - 20) + 'px';
+    tip.style.opacity = 1;
+  } else { tip.style.opacity = 0; }
+});
+cw.addEventListener('mouseleave', () => tip.style.opacity = 0);
+
+/* controls */
+document.querySelectorAll('.pill').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.pill').forEach(x => x.setAttribute('aria-pressed','false'));
+  b.setAttribute('aria-pressed','true');
+  range = +b.dataset.range;
+  render();
+}));
+
+const bChart = document.getElementById('bChart'), bTable = document.getElementById('bTable');
+function setMode(m){
+  mode = m;
+  bChart.setAttribute('aria-pressed', m === 'chart');
+  bTable.setAttribute('aria-pressed', m === 'table');
+  document.getElementById('chartwrap').classList.toggle('hide', m !== 'chart');
+  document.getElementById('tablewrap').classList.toggle('hide', m !== 'table');
+}
+bChart.addEventListener('click', () => setMode('chart'));
+bTable.addEventListener('click', () => setMode('table'));
+
+render();
+</script>
 </body>
 </html>
