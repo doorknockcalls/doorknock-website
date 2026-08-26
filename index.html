@@ -11,6 +11,22 @@
   <meta property="og:title" content="DoorKnock Calls -- We Knock. You Close.">
   <meta property="og:description" content="A dedicated cold-caller works your seller list and nobody else's. Full-time is 3,500+ dials a day and 2-3 qualified motivated-seller leads, at $1,100/month. A 6-hour caller is $800. Full dashboard visibility.">
   <meta property="og:url" content="https://doorknockcalls.com/">
+  <meta property="og:site_name" content="DoorKnock Calls">
+  <meta property="og:image" content="https://doorknockcalls.com/og-cover.png">
+  <meta property="og:image:secure_url" content="https://doorknockcalls.com/og-cover.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DoorKnock Calls - 2-3 qualified seller leads a day. We Knock. You Close.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DoorKnock Calls -- We Knock. You Close.">
+  <meta name="twitter:description" content="A dedicated cold-caller works your seller list and nobody else's. Every dial, every connect and every lead on your dashboard the same day.">
+  <meta name="twitter:image" content="https://doorknockcalls.com/og-cover.png">
+  <meta name="theme-color" content="#0A1428">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22104%22%20fill%3D%22%230A1428%22%2F%3E%3Cg%20transform%3D%22translate(95%2C66)%20scale(0.94)%22%3E%3Cpath%20d%3D%22M%200%200%20H%20130%20A%20190%20190%200%200%201%20130%20380%20H%200%20Z%20M%2078%2078%20H%20130%20A%20112%20112%200%200%201%20130%20302%20H%2078%20Z%22%20fill%3D%22%23fff%22%20fill-rule%3D%22evenodd%22%2F%3E%3Cpath%20d%3D%22M%2096%20107%20A%203%203%200%200%201%2099%20104%20H%20190.68%20A%203%203%200%200%201%20193.68%20107%20V%20273%20A%203%203%200%200%201%20190.68%20276%20H%2099%20A%203%203%200%200%201%2096%20273%20Z%22%20fill%3D%22%232D6BE4%22%2F%3E%3Ccircle%20cx%3D%22178.68%22%20cy%3D%22190%22%20r%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+  <link rel="icon" type="image/png" sizes="512x512" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -267,6 +283,9 @@ transition:transform 0.18s ease, box-shadow 0.18s ease;
     .steps{grid-template-columns:1fr;}
     footer .wrap{flex-direction:column; align-items:flex-start;}
   }
+
+/* keep anchored sections clear of the sticky header */
+#what-you-get,#dashboard,#pricing,#faq{scroll-margin-top:96px}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5MSDZ0FVS3"></script>
@@ -275,6 +294,127 @@ transition:transform 0.18s ease, box-shadow 0.18s ease;
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-5MSDZ0FVS3');
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://doorknockcalls.com/#org",
+   "name": "DoorKnock Calls",
+   "alternateName": "DoorKnock",
+   "url": "https://doorknockcalls.com/",
+   "logo": "https://doorknockcalls.com/apple-touch-icon.png",
+   "image": "https://doorknockcalls.com/og-cover.png",
+   "email": "dkc@doorknockcalls.com",
+   "slogan": "We Knock. You Close.",
+   "description": "Outbound cold-calling partner for US real estate wholesalers and investors. A dedicated caller works your seller list and nobody else's.",
+   "sameAs": [
+    "https://instagram.com/doorknockcalls"
+   ],
+   "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://doorknockcalls.com/#website",
+   "url": "https://doorknockcalls.com/",
+   "name": "DoorKnock Calls",
+   "publisher": {
+    "@id": "https://doorknockcalls.com/#org"
+   },
+   "inLanguage": "en-US"
+  },
+  {
+   "@type": "Service",
+   "@id": "https://doorknockcalls.com/#service",
+   "name": "Dedicated cold-calling for real estate wholesalers",
+   "serviceType": "Outbound cold calling / lead generation",
+   "provider": {
+    "@id": "https://doorknockcalls.com/#org"
+   },
+   "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+   },
+   "offers": [
+    {
+     "@type": "Offer",
+     "name": "Standard",
+     "price": "800",
+     "priceCurrency": "USD",
+     "description": "One dedicated caller, 6 hours a day, 22 days a month.",
+     "url": "https://doorknockcalls.com/#pricing"
+    },
+    {
+     "@type": "Offer",
+     "name": "Full-time",
+     "price": "1100",
+     "priceCurrency": "USD",
+     "description": "One dedicated caller, 8 hours a day, 22 days a month.",
+     "url": "https://doorknockcalls.com/#pricing"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://doorknockcalls.com/#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "What’s the difference between $800 and $1,100?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Hours on your list, and what those hours produce. Standard is 6 hours a day, 22 days a month — 132 hours, around 2,600 dials a day and 1–2 qualified leads. Full-time is 8 hours over the same 22 days — 176 hours, 3,500+ dials a day and 2–3 qualified leads. Same dedicated caller, same dashboard, same bar a lead has to clear before it reaches you. The full-time seat simply covers more of your market’s peak contact window, which is where most people end up once their list is big enough to justify it."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is it worth it?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "You get qualified, motivated-seller leads every day — 1–2 on the 6-hour caller, 2–3 on full-time — with every dial logged and every call recorded so you can check the work yourself. If one closed deal is worth $8–10k to you, a single month can pay for itself several times over. And because we never charge per lead, a strong month costs you exactly the same as a quiet one."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Why pay 100% up front?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Because we buy your dialer seat and phone numbers, and commit your caller to your account, before the first call goes out. There is no contract beyond the month you have paid for — if it is not working, you simply do not renew."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Where are your callers based?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Egypt. Native-level English, trained specifically on real estate acquisitions, calling your market's peak contact windows. Judge it on the call recordings, not the postcode."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Do you comply with TCPA/DNC regulations?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes — every list is scrubbed against the National Do Not Call Registry through our dialer before a single call goes out. Calls are made by a live, dedicated caller — never an autodialer or a prerecorded message."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if the leads don't come?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Then we're not doing our job. Flag it anytime and we'll fix it fast — no need to wait until the end of the month."
+     }
+    }
+   ]
+  }
+ ]
+}
 </script>
 </head>
 <body>
