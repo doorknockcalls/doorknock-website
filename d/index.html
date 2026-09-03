@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#0A1428">
+<title>DoorKnock — Client Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A1428'/%3E%3Cpath d='M16 12h16c11 0 20 9 20 20s-9 20-20 20H16z' fill='%23fff'/%3E%3Crect x='26' y='22' width='12' height='20' rx='1.5' fill='%232D6BE4'/%3E%3Ccircle cx='35' cy='32' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap">
+<style>
+:root{--navy:#0A1428;--card:#0F1D36;--card2:#16294A;--rule:#2B4468;--rule2:#1E3457;--blue:#4C8DF6;--blue-d:#2D6BE4;--amber:#F0A028;--go:#35B37E;--ink:#EEF3FB;--ink2:#A9BBD4;--ink3:#7C90AC}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--navy);color:var(--ink);font-family:Montserrat,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+header{position:sticky;top:0;z-index:10;background:rgba(10,20,40,.97);border-bottom:1px solid var(--rule);backdrop-filter:blur(8px)}
+.hd{display:flex;align-items:center;gap:14px;padding:14px 0}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.logo svg{width:34px;height:34px;flex:0 0 auto}
+.logo b{font-weight:800;font-size:17px;letter-spacing:-.01em}
+.logo b em{font-style:normal;color:var(--blue);font-size:11px;letter-spacing:.18em;display:block;line-height:1;margin-top:2px}
+.who{margin-left:auto;text-align:right;min-width:0}
+.who .n{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who .s{font-size:12px;color:var(--ink3);display:flex;gap:6px;align-items:center;justify-content:flex-end}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ink3);display:inline-block}
+.dot.on{background:var(--go);box-shadow:0 0 0 3px rgba(53,179,126,.18)}
+.dot.err{background:#E5484D}
+
+.tabs{display:flex;gap:8px;padding:18px 0 4px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid var(--rule);background:var(--card);color:var(--ink2);border-radius:999px;padding:9px 16px;font:inherit;font-weight:600;font-size:13.5px;cursor:pointer}
+.tab.on{background:var(--blue-d);border-color:var(--blue-d);color:#fff}
+
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 18px}
+.tile{background:var(--card);border:1px solid var(--rule2);border-radius:14px;padding:16px 16px 14px;min-width:0}
+.tile .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.tile .v{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.tile .v.q{color:var(--blue)}
+.tile .s{font-size:12.5px;color:var(--ink2)}
+@media(max-width:560px){.tiles{grid-template-columns:1fr 1fr}.tile:last-child{grid-column:1/-1}.tile .v{font-size:30px}}
+
+.sec{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px}
+.sec h2{margin:0;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.sec .n{color:var(--blue);font-weight:800;font-size:13px}
+.sec .r{margin-left:auto;font-size:12px;color:var(--ink3)}
+
+.chartbox{background:var(--card);border:1px solid var(--rule2);border-radius:14px;padding:16px 16px 10px}
+.chart{width:100%;height:190px;display:block}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--ink2);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+.lead{background:var(--card);border:1px solid var(--rule2);border-radius:14px;padding:16px;margin-bottom:12px}
+.lead .top{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.lead .tel{font-size:26px;font-weight:800;letter-spacing:-.02em;text-decoration:none;color:#fff;background:var(--blue-d);border-radius:12px;padding:10px 16px;display:inline-block;line-height:1;font-variant-numeric:tabular-nums}
+.lead .tel small{display:block;font-size:10.5px;letter-spacing:.14em;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:6px}
+.lead .id{flex:1;min-width:200px}
+.lead .id .nm{font-weight:700;font-size:16px}
+.lead .id .ad{color:var(--ink2);font-size:14px;margin-top:2px}
+.lead .id .when{color:var(--ink3);font-size:12px;margin-top:6px}
+.six{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px;margin-top:14px}
+@media(max-width:640px){.six{grid-template-columns:1fr 1fr}}
+.f .k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:3px}
+.f .v{font-size:14px;line-height:1.45;color:var(--ink)}
+.f.wide{grid-column:1/-1}
+.rec{margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rec audio{flex:1;min-width:220px;height:36px}
+.rec .k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.empty{color:var(--ink3);font-size:14px;padding:22px;text-align:center;border:1px dashed var(--rule);border-radius:14px}
+.note{color:var(--ink3);font-size:12.5px;margin:18px 0 40px;line-height:1.6}
+.err{display:none;margin:60px auto;max-width:480px;text-align:center}
+.err h1{font-size:20px;margin:0 0 8px}
+.err p{color:var(--ink2);font-size:14px}
+.badge{display:inline-block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--amber);border:1px solid rgba(240,160,40,.5);border-radius:999px;padding:4px 10px;margin-left:8px;vertical-align:middle}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a class="logo" href="https://doorknockcalls.com" aria-label="DoorKnock Calls">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 8h18c13.3 0 24 10.7 24 24S45.3 56 32 56H14z" fill="#fff"/><rect x="26" y="20" width="14" height="24" rx="1.5" fill="#2D6BE4"/><circle cx="36.5" cy="32" r="1.8" fill="#fff"/></svg>
+    <b>DoorKnock<em>CALLS</em></b>
+  </a>
+  <div class="who"><div class="n" id="cname">Loading…</div><div class="s"><span class="dot" id="dot"></span><span id="status">connecting</span></div></div>
+</div></header>
+
+<main class="wrap" id="main" hidden>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="today">Today</button>
+    <button class="tab" data-p="7">Last 7 days</button>
+    <button class="tab" data-p="22">Last 22 working days</button>
+  </div>
+  <div class="tiles">
+    <div class="tile"><div class="l">Dials</div><div class="v" id="t-dials">–</div><div class="s" id="s-dials"></div></div>
+    <div class="tile"><div class="l">Live contacts</div><div class="v" id="t-conn">–</div><div class="s" id="s-conn"></div></div>
+    <div class="tile"><div class="l">Qualified leads</div><div class="v q" id="t-qual">–</div><div class="s" id="s-qual"></div></div>
+  </div>
+
+  <div class="sec"><h2>Daily activity</h2><span class="r" id="range"></span></div>
+  <div class="chartbox"><svg class="chart" id="chart" viewBox="0 0 800 190" preserveAspectRatio="none"></svg>
+    <div class="legend"><span><i style="background:#2B4468"></i>Dials</span><span><i style="background:#4C8DF6"></i>Live contacts</span><span><i style="background:#F0A028"></i>Qualified</span></div></div>
+
+  <div class="sec"><h2>Qualified leads</h2><span class="n" id="nleads"></span><span class="r">newest first · every lead comes with its recording</span></div>
+  <div id="leads"></div>
+
+  <p class="note">Only leads that cleared all six checks appear here: intent to sell, a timeline, condition, occupancy, an asking price, and a callback time. Every other call is counted above but not listed — any recording is available on request. Numbers refresh automatically.</p>
+</main>
+
+<div class="wrap err" id="err"><h1>Nothing here</h1><p>This link isn't valid or has been turned off. If you're a DoorKnock client, use the link you were sent, or WhatsApp +1 575 592 5742.</p></div>
+
+<script>
+/* ---------- config ---------- */
+const API = 'https://script.google.com/macros/s/AKfycbzb11zOCInA0MFUFO-yGSQh4HO7YZjRTzEXWDvFIU5WkuJoeaWSaGTG6Dn-y9D43FAUWA/exec';
+const REFRESH_MS = 60000;
+const q = new URLSearchParams(location.search);
+const C = q.get('cid') || '', K = q.get('token') || '', DEMO = q.get('demo') === '1';
+
+/* ---------- state ---------- */
+let DATA = null, period = 'today', timer = null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s);
+const fmt = n => Number(n || 0).toLocaleString('en-US');
+const telHref = p => 'tel:' + esc(p).replace(/[^\d+]/g, '');
+const telFmt = p => { const d = esc(p).replace(/\D/g, ''); const m = d.match(/^1?(\d{3})(\d{3})(\d{4})$/); return m ? `(${m[1]}) ${m[2]}-${m[3]}` : esc(p); };
+const dayFmt = iso => { const d = new Date(iso + 'T12:00:00'); return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); };
+const isWorkday = iso => { const d = new Date(iso + 'T12:00:00').getDay(); return d !== 0 && d !== 6; };
+
+/* ---------- load ---------- */
+async function load() {
+  try {
+    let j;
+    if (DEMO) j = DEMO_DATA;
+    else {
+      if (!C || !K || API.indexOf('http') !== 0) throw new Error('no key');
+      const r = await fetch(`${API}?cid=${encodeURIComponent(C)}&token=${encodeURIComponent(K)}&ts=${Date.now()}`, { redirect: 'follow' });
+      j = await r.json();
+    }
+    if (!j || !j.ok) throw new Error('not ok');
+    DATA = j; render(); setStatus('on', 'live · ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }));
+    $('#main').hidden = false; $('#err').style.display = 'none';
+  } catch (e) {
+    if (!DATA) { $('#main').hidden = true; $('#err').style.display = 'block'; $('#cname').textContent = 'DoorKnock'; }
+    setStatus('err', DATA ? 'reconnecting…' : 'no access');
+  }
+}
+function setStatus(cls, text) { $('#dot').className = 'dot ' + cls; $('#status').textContent = text; }
+
+/* ---------- render ---------- */
+function slice() {
+  const days = DATA.days;
+  if (period === 'today') return days.slice(-1);
+  if (period === '7') return days.slice(-7);
+  const wd = days.filter(d => isWorkday(d.date)); return wd.slice(-22);
+}
+function render() {
+  const c = DATA.client || {};
+  $('#cname').innerHTML = esc(c.name || 'Client') + (DEMO ? '<span class="badge">sample data</span>' : '');
+  document.title = `DoorKnock — ${c.name || 'Client'}`;
+  const s = slice();
+  const sum = k => s.reduce((a, d) => a + (Number(d[k]) || 0), 0);
+  const dials = sum('dials'), conn = sum('connects'), qual = Math.max(sum('qualified'), countLeads(s));
+  $('#t-dials').textContent = fmt(dials); $('#t-conn').textContent = fmt(conn); $('#t-qual').textContent = fmt(qual);
+  const n = s.length;
+  $('#s-dials').textContent = n > 1 ? `${fmt(Math.round(dials / n))} per day avg` : (c.package ? esc(c.package) + (c.hours ? ` · ${c.hours} hrs/day` : '') : '');
+  $('#s-conn').textContent = dials ? `${Math.round(conn / dials * 100)}% connect rate` : '—';
+  $('#s-qual').textContent = conn ? `1 in ${Math.max(1, Math.round(conn / Math.max(qual, 1)))} live contacts` : '—';
+  $('#range').textContent = n === 1 ? dayFmt(s[0].date) : `${dayFmt(s[0].date)} – ${dayFmt(s[n - 1].date)}`;
+  chart(period === 'today' ? DATA.days.slice(-7) : s);
+  leads();
+}
+function countLeads(s) {
+  const set = new Set(s.map(d => d.date));
+  return (DATA.leads || []).filter(l => l.ts && set.has(l.ts.slice(0, 10))).length;
+}
+function chart(s) {
+  const W = 800, H = 190, padL = 6, padR = 6, padT = 14, padB = 26;
+  const max = Math.max(10, ...s.map(d => Number(d.dials) || 0));
+  const n = s.length, gw = (W - padL - padR) / n, bw = Math.min(46, gw * .62);
+  let out = '';
+  for (let i = 0; i < 4; i++) { const y = padT + (H - padT - padB) * i / 3; out += `<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="#1E3457" stroke-width="1"/>`; }
+  s.forEach((d, i) => {
+    const x = padL + gw * i + (gw - bw) / 2;
+    const h = v => (Number(v) || 0) / max * (H - padT - padB);
+    const y0 = H - padB;
+    out += `<rect x="${x}" y="${y0 - h(d.dials)}" width="${bw}" height="${h(d.dials)}" rx="4" fill="#2B4468"><title>${dayFmt(d.date)}: ${fmt(d.dials)} dials, ${fmt(d.connects)} live, ${fmt(d.qualified)} qualified</title></rect>`;
+    out += `<rect x="${x}" y="${y0 - h(d.connects)}" width="${bw}" height="${h(d.connects)}" rx="4" fill="#4C8DF6"/>`;
+    if (Number(d.qualified)) out += `<rect x="${x}" y="${y0 - h(d.qualified) - 1}" width="${bw}" height="${Math.max(3, h(d.qualified))}" rx="2" fill="#F0A028"/>`;
+    if (n <= 12 || i % Math.ceil(n / 8) === 0) out += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#7C90AC" font-family="Montserrat,system-ui">${dayFmt(d.date)}</text>`;
+  });
+  out += `<text x="${W - 4}" y="${padT - 3}" text-anchor="end" font-size="11" fill="#7C90AC" font-family="Montserrat,system-ui">${fmt(max)} dials</text>`;
+  $('#chart').innerHTML = out;
+}
+function leads() {
+  const box = $('#leads'); box.innerHTML = '';
+  const L = DATA.leads || [];
+  $('#nleads').textContent = L.length || '';
+  if (!L.length) { box.innerHTML = '<div class="empty">No qualified leads handed over yet.</div>'; return; }
+  L.forEach(l => {
+    const f = (k, v, wide) => v ? `<div class="f${wide ? ' wide' : ''}"><div class="k">${k}</div><div class="v">${esc(v)}</div></div>` : '';
+    const when = l.ts ? new Date(l.ts).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '';
+    box.insertAdjacentHTML('beforeend', `
+      <article class="lead">
+        <div class="top">
+          <a class="tel" href="${telHref(l.phone)}"><small>Tap to call</small>${telFmt(l.phone)}</a>
+          <div class="id"><div class="nm">${esc(l.name) || 'Owner'}</div><div class="ad">${esc(l.address)}</div>${when ? `<div class="when">Qualified ${when}</div>` : ''}</div>
+        </div>
+        <div class="six">
+          ${f('Asking price', l.price)}${f('Timeline', l.timeline)}${f('Callback time', l.callback)}
+          ${f('Condition', l.condition)}${f('Occupancy', l.occupancy)}${f('Why selling', l.why)}
+          ${f('Notes', l.notes, true)}
+        </div>
+        ${l.recording ? `<div class="rec"><span class="k">Recording</span><audio controls preload="none" src="${esc(l.recording)}"></audio></div>` : ''}
+      </article>`);
+  });
+}
+
+/* ---------- wiring ---------- */
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on')); t.classList.add('on');
+  period = t.dataset.p; if (DATA) render();
+});
+
+/* ---------- sample payload (what the Apps Script returns) — used only with ?demo=1 ---------- */
+const DEMO_DATA = (() => {
+  const days = []; const today = new Date();
+  for (let b = 39; b >= 0; b--) {
+    const d = new Date(today); d.setDate(d.getDate() - b);
+    const iso = d.toISOString().slice(0, 10); const wk = d.getDay() !== 0 && d.getDay() !== 6;
+    const dials = wk ? 2400 + Math.round(Math.sin(b * 1.3) * 300 + (b % 5) * 60) : 0;
+    const conn = wk ? Math.round(dials * (0.048 + (b % 4) * 0.004)) : 0;
+    const qual = wk ? (b === 0 ? 2 : (b % 3 === 0 ? 2 : 1)) : 0;
+    days.push({ date: iso, dials, connects: conn, qualified: qual });
+  }
+  const t = today.toISOString().slice(0, 10);
+  return { ok: true, client: { id: 'demo', name: 'Sample Account', package: 'Standard', hours: 6 }, days, leads: [
+    { ts: t + 'T14:21:42', name: 'Sample Owner', address: '802 Example Ave, Trenton, NJ 08618', phone: '+15555550123', price: '$350,000', timeline: 'Couple of months', condition: 'Fixed up, no repairs needed', occupancy: 'Owner-occupied', why: 'Wants a cash offer', notes: 'Sample lead — this is what a handed-over lead looks like.', callback: 'Weekdays after 5pm', recording: '' }
+  ] };
+})();
+load(); if (!DEMO) timer = setInterval(load, REFRESH_MS);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && !DEMO) load(); });
+</script>
+</body>
+</html>
