@@ -72,6 +72,20 @@ header{position:sticky;top:0;z-index:10;background:rgba(10,20,40,.97);border-bot
 .err{display:none;margin:60px auto;max-width:480px;text-align:center}
 .err h1{font-size:20px;margin:0 0 8px}
 .err p{color:var(--ink2);font-size:14px}
+.tag{color:var(--ink3);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;text-align:center;margin:28px 0 44px}
+.tag b{color:var(--blue)}
+.out{font-size:11px;color:var(--ink3);text-decoration:none;margin-left:8px;border:1px solid var(--rule);border-radius:999px;padding:2px 8px}
+.out:hover{color:var(--ink)}
+.login{display:none;max-width:380px;margin:56px auto 40px;background:var(--card);border:1px solid var(--rule2);border-radius:18px;padding:26px 24px}
+.login h1{font-size:18px;margin:0 0 4px}
+.login p{color:var(--ink3);font-size:13px;margin:0 0 18px;line-height:1.5}
+.login label{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin:12px 0 6px}
+.login input{width:100%;font:inherit;font-size:15px;padding:12px 14px;border-radius:10px;border:1px solid var(--rule);background:var(--navy);color:var(--ink);outline:none}
+.login input:focus{border-color:var(--blue)}
+.login button{width:100%;margin-top:18px;font:inherit;font-weight:700;font-size:15px;padding:13px;border-radius:10px;border:0;background:var(--blue-d);color:#fff;cursor:pointer}
+.login button[disabled]{opacity:.6;cursor:default}
+.login .e{color:#FF7B7B;font-size:13px;min-height:18px;margin-top:10px}
+.login .h{color:var(--ink3);font-size:12px;margin-top:16px;text-align:center}
 .badge{display:inline-block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--amber);border:1px solid rgba(240,160,40,.5);border-radius:999px;padding:4px 10px;margin-left:8px;vertical-align:middle}
 </style>
 </head>
@@ -81,7 +95,7 @@ header{position:sticky;top:0;z-index:10;background:rgba(10,20,40,.97);border-bot
     <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 8h18c13.3 0 24 10.7 24 24S45.3 56 32 56H14z" fill="#fff"/><rect x="26" y="20" width="14" height="24" rx="1.5" fill="#2D6BE4"/><circle cx="36.5" cy="32" r="1.8" fill="#fff"/></svg>
     <b>DoorKnock<em>CALLS</em></b>
   </a>
-  <div class="who"><div class="n" id="cname">Loading…</div><div class="s"><span class="dot" id="dot"></span><span id="status">connecting</span></div></div>
+  <div class="who"><div class="n" id="cname">Loading…</div><div class="s"><span class="dot" id="dot"></span><span id="status">connecting</span><a class="out" id="signout" href="#" hidden>Sign out</a></div></div>
 </div></header>
 
 <main class="wrap" id="main" hidden>
@@ -92,19 +106,29 @@ header{position:sticky;top:0;z-index:10;background:rgba(10,20,40,.97);border-bot
   </div>
   <div class="tiles">
     <div class="tile"><div class="l">Dials</div><div class="v" id="t-dials">–</div><div class="s" id="s-dials"></div></div>
-    <div class="tile"><div class="l">Live contacts</div><div class="v" id="t-conn">–</div><div class="s" id="s-conn"></div></div>
+    <div class="tile"><div class="l">Connected calls</div><div class="v" id="t-conn">–</div><div class="s" id="s-conn"></div></div>
     <div class="tile"><div class="l">Qualified leads</div><div class="v q" id="t-qual">–</div><div class="s" id="s-qual"></div></div>
   </div>
 
   <div class="sec"><h2>Daily activity</h2><span class="r" id="range"></span></div>
   <div class="chartbox"><svg class="chart" id="chart" viewBox="0 0 800 190" preserveAspectRatio="none"></svg>
-    <div class="legend"><span><i style="background:#2B4468"></i>Dials</span><span><i style="background:#4C8DF6"></i>Live contacts</span><span><i style="background:#F0A028"></i>Qualified</span></div></div>
+    <div class="legend"><span><i style="background:#2B4468"></i>Dials</span><span><i style="background:#4C8DF6"></i>Connected calls</span><span><i style="background:#F0A028"></i>Qualified</span></div></div>
 
   <div class="sec"><h2>Qualified leads</h2><span class="n" id="nleads"></span><span class="r">newest first · every lead comes with its recording</span></div>
   <div id="leads"></div>
 
-  <p class="note">Only leads that cleared all six checks appear here: intent to sell, a timeline, condition, occupancy, an asking price, and a callback time. Every other call is counted above but not listed — any recording is available on request. Numbers refresh automatically.</p>
+  <p class="tag">We Knock. <b>You Close.</b></p>
 </main>
+
+<form class="login" id="login" autocomplete="on">
+  <h1>Client sign-in</h1>
+  <p>Your live DoorKnock board — dials, connected calls and every qualified lead handed over.</p>
+  <label for="l-cid">Client ID</label><input id="l-cid" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+  <label for="l-pw">Password</label><input id="l-pw" name="password" type="password" autocomplete="current-password" required>
+  <button type="submit" id="l-btn">Sign in</button>
+  <div class="e" id="l-err"></div>
+  <div class="h">Lost your login? WhatsApp +1 575 592 5742</div>
+</form>
 
 <div class="wrap err" id="err"><h1>Nothing here</h1><p>This link isn't valid or has been turned off. If you're a DoorKnock client, use the link you were sent, or WhatsApp +1 575 592 5742.</p></div>
 
@@ -113,7 +137,13 @@ header{position:sticky;top:0;z-index:10;background:rgba(10,20,40,.97);border-bot
 const API = 'https://script.google.com/macros/s/AKfycbzb11zOCInA0MFUFO-yGSQh4HO7YZjRTzEXWDvFIU5WkuJoeaWSaGTG6Dn-y9D43FAUWA/exec';
 const REFRESH_MS = 60000;
 const q = new URLSearchParams(location.search);
-const C = q.get('cid') || '', K = q.get('token') || '', DEMO = q.get('demo') === '1';
+const DEMO = q.get('demo') === '1';
+let C = q.get('cid') || '', K = q.get('token') || '';
+const SKEY = 'dkc_session';
+function readSession() { try { return JSON.parse(localStorage.getItem(SKEY) || 'null'); } catch (_) { return null; } }
+function writeSession(o) { try { o ? localStorage.setItem(SKEY, JSON.stringify(o)) : localStorage.removeItem(SKEY); } catch (_) {} }
+let viaSession = false;
+if (!C && !K && !DEMO) { const ss = readSession(); if (ss && ss.cid && ss.token) { C = ss.cid; K = ss.token; viaSession = true; } }
 
 /* ---------- state ---------- */
 let DATA = null, period = 'today', timer = null;
@@ -138,11 +168,33 @@ async function load() {
     if (!j || !j.ok) throw new Error('not ok');
     DATA = j; render(); setStatus('on', 'live · ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }));
     $('#main').hidden = false; $('#err').style.display = 'none';
+    $('#signout').hidden = !viaSession;
   } catch (e) {
-    if (!DATA) { $('#main').hidden = true; $('#err').style.display = 'block'; $('#cname').textContent = 'DoorKnock'; }
-    setStatus('err', DATA ? 'reconnecting…' : 'no access');
+    if (!DATA) {
+      $('#main').hidden = true; $('#cname').textContent = 'DoorKnock';
+      if (!C && !K) { showLogin(); setStatus('', 'sign in'); }
+      else if (viaSession) { writeSession(null); viaSession = false; C = K = ''; showLogin('Session expired — sign in again.'); setStatus('', 'sign in'); }
+      else { $('#err').style.display = 'block'; setStatus('err', 'no access'); }
+    } else setStatus('err', 'reconnecting…');
   }
 }
+function showLogin(msg) { $('#login').style.display = 'block'; $('#err').style.display = 'none'; $('#l-err').textContent = msg || ''; setTimeout(() => $('#l-cid').focus(), 50); }
+$('#login').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const cid = $('#l-cid').value.trim().toLowerCase(), password = $('#l-pw').value;
+  if (!cid || !password) return;
+  $('#l-btn').disabled = true; $('#l-err').textContent = '';
+  try {
+    const r = await fetch(API, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'login', cid, password }) });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.message || 'Wrong client ID or password.');
+    writeSession({ cid: j.cid, token: j.token, name: j.name }); C = j.cid; K = j.token; viaSession = true;
+    $('#login').style.display = 'none'; setStatus('', 'connecting'); await load();
+    if (!timer) timer = setInterval(load, REFRESH_MS);
+  } catch (e) { $('#l-err').textContent = e.message || 'Could not sign in.'; }
+  $('#l-btn').disabled = false;
+});
+$('#signout').onclick = ev => { ev.preventDefault(); writeSession(null); location.href = location.pathname; };
 function setStatus(cls, text) { $('#dot').className = 'dot ' + cls; $('#status').textContent = text; }
 
 /* ---------- render ---------- */
@@ -154,16 +206,18 @@ function slice() {
 }
 function render() {
   const c = DATA.client || {};
+  const perDay = {}; (DATA.leads || []).forEach(l => { if (l.ts) { const k = l.ts.slice(0, 10); perDay[k] = (perDay[k] || 0) + 1; } });
+  DATA.days.forEach(d => { d.qualified = perDay[d.date] || 0; });
   $('#cname').innerHTML = esc(c.name || 'Client') + (DEMO ? '<span class="badge">sample data</span>' : '');
   document.title = `DoorKnock — ${c.name || 'Client'}`;
   const s = slice();
   const sum = k => s.reduce((a, d) => a + (Number(d[k]) || 0), 0);
-  const dials = sum('dials'), conn = sum('connects'), qual = Math.max(sum('qualified'), countLeads(s));
+  const dials = sum('dials'), conn = sum('connects'), qual = countLeads(s);   // qualified = what QA handed over, never what the dialer flagged
   $('#t-dials').textContent = fmt(dials); $('#t-conn').textContent = fmt(conn); $('#t-qual').textContent = fmt(qual);
   const n = s.length;
   $('#s-dials').textContent = n > 1 ? `${fmt(Math.round(dials / n))} per day avg` : (c.package ? esc(c.package) + (c.hours ? ` · ${c.hours} hrs/day` : '') : '');
   $('#s-conn').textContent = dials ? `${Math.round(conn / dials * 100)}% connect rate` : '—';
-  $('#s-qual').textContent = conn ? `1 in ${Math.max(1, Math.round(conn / Math.max(qual, 1)))} live contacts` : '—';
+  $('#s-qual').textContent = conn ? `1 in ${Math.max(1, Math.round(conn / Math.max(qual, 1)))} connected calls` : '—';
   $('#range').textContent = n === 1 ? dayFmt(s[0].date) : `${dayFmt(s[0].date)} – ${dayFmt(s[n - 1].date)}`;
   chart(period === 'today' ? DATA.days.slice(-7) : s);
   leads();
@@ -236,7 +290,7 @@ const DEMO_DATA = (() => {
     { ts: t + 'T14:21:42', name: 'Sample Owner', address: '802 Example Ave, Trenton, NJ 08618', phone: '+15555550123', price: '$350,000', timeline: 'Couple of months', condition: 'Fixed up, no repairs needed', occupancy: 'Owner-occupied', why: 'Wants a cash offer', notes: 'Sample lead — this is what a handed-over lead looks like.', callback: 'Weekdays after 5pm', recording: '' }
   ] };
 })();
-load(); if (!DEMO) timer = setInterval(load, REFRESH_MS);
+load(); if (!DEMO && C && K) timer = setInterval(load, REFRESH_MS);
 document.addEventListener('visibilitychange', () => { if (!document.hidden && !DEMO) load(); });
 </script>
 </body>
