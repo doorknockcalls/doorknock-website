@@ -88,6 +88,18 @@ header{position:sticky;top:0;z-index:10;background:rgba(10,20,40,.97);border-bot
 .login button[disabled]{opacity:.6;cursor:default}
 .login .e{color:#FF7B7B;font-size:13px;min-height:18px;margin-top:10px}
 .login .h{color:var(--ink3);font-size:12px;margin-top:16px;text-align:center}
+.views{display:flex;gap:6px;margin:26px 0 12px;border-bottom:1px solid var(--rule2)}
+.view{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--ink3);font:inherit;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:10px 12px;cursor:pointer}
+.view .c{color:var(--ink3);font-weight:800;margin-left:6px}
+.view.on{color:var(--ink);border-bottom-color:var(--blue)}
+.view.on .c{color:var(--blue)}
+.view.dq.on{border-bottom-color:#E5484D}.view.dq.on .c{color:#FF7B7B}
+.lead.dq{border-color:rgba(229,72,77,.35)}
+.lead.dq .tel{background:var(--card2);color:var(--ink2)}
+.dqtag{display:inline-block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#FF7B7B;border:1px solid rgba(229,72,77,.5);border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:middle}
+.reason{margin-top:14px;background:rgba(229,72,77,.08);border:1px solid rgba(229,72,77,.3);border-radius:10px;padding:10px 12px}
+.reason .k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#FF7B7B;font-weight:700;margin-bottom:3px}
+.reason .v{font-size:14px;line-height:1.45}
 .badge{display:inline-block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--amber);border:1px solid rgba(240,160,40,.5);border-radius:999px;padding:4px 10px;margin-left:8px;vertical-align:middle}
 </style>
 </head>
@@ -113,7 +125,11 @@ header{position:sticky;top:0;z-index:10;background:rgba(10,20,40,.97);border-bot
   </div>
   <div class="since" id="since"></div>
 
-  <div class="sec"><h2>Qualified leads</h2><span class="n" id="nleads"></span><span class="r">newest first · every lead comes with its recording</span></div>
+  <div class="views" role="tablist">
+    <button class="view on" data-v="q">Qualified leads<span class="c" id="nleads"></span></button>
+    <button class="view dq" data-v="dq">Disqualified<span class="c" id="ndq"></span></button>
+  </div>
+  <div class="sec" id="sech"><span class="r" id="secr">newest first · every lead comes with its recording</span></div>
   <div id="leads"></div>
 
   <p class="tag">We Knock. <b>You Close.</b></p>
@@ -145,7 +161,7 @@ let viaSession = false;
 if (!C && !K && !DEMO) { const ss = readSession(); if (ss && ss.cid && ss.token) { C = ss.cid; K = ss.token; viaSession = true; } }
 
 /* ---------- state ---------- */
-let DATA = null, period = 'today', timer = null;
+let DATA = null, period = 'today', view = 'q', timer = null;
 const $ = s => document.querySelector(s);
 const esc = s => String(s == null ? '' : s);
 const fmt = n => Number(n || 0).toLocaleString('en-US');
@@ -226,18 +242,21 @@ function countLeads(s) {
 }
 function leads() {
   const box = $('#leads'); box.innerHTML = '';
-  const L = DATA.leads || [];
-  $('#nleads').textContent = L.length || '';
-  if (!L.length) { box.innerHTML = '<div class="empty">No qualified leads handed over yet.</div>'; return; }
+  const Q = DATA.leads || [], D = DATA.disqualified || [];
+  $('#nleads').textContent = Q.length || ''; $('#ndq').textContent = D.length || '';
+  const dq = view === 'dq'; const L = dq ? D : Q;
+  $('#secr').textContent = dq ? 'calls that reached QA but missed one of the six checks — not counted as leads, shown so nothing is hidden' : 'newest first · every lead comes with its recording';
+  if (!L.length) { box.innerHTML = `<div class="empty">${dq ? 'Nothing disqualified.' : 'No qualified leads handed over yet.'}</div>`; return; }
   L.forEach(l => {
     const f = (k, v, wide) => v ? `<div class="f${wide ? ' wide' : ''}"><div class="k">${k}</div><div class="v">${esc(v)}</div></div>` : '';
     const when = l.ts ? new Date(l.ts).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '';
     box.insertAdjacentHTML('beforeend', `
-      <article class="lead">
+      <article class="lead${dq ? ' dq' : ''}">
         <div class="top">
-          <a class="tel" href="${telHref(l.phone)}"><small>Tap to call</small>${telFmt(l.phone)}</a>
-          <div class="id"><div class="nm">${esc(l.name) || 'Owner'}</div><div class="ad">${esc(l.address)}</div>${when ? `<div class="when">Qualified ${when}</div>` : ''}</div>
+          <a class="tel" href="${telHref(l.phone)}"><small>${dq ? 'Number' : 'Tap to call'}</small>${telFmt(l.phone)}</a>
+          <div class="id"><div class="nm">${esc(l.name) || 'Owner'}${dq ? '<span class="dqtag">Disqualified</span>' : ''}</div><div class="ad">${esc(l.address)}</div>${when ? `<div class="when">${dq ? 'Reviewed' : 'Qualified'} ${when}</div>` : ''}</div>
         </div>
+        ${dq && l.reason ? `<div class="reason"><div class="k">Why it was held back</div><div class="v">${esc(l.reason)}</div></div>` : ''}
         <div class="six">
           ${f('Asking price', l.price)}${f('Timeline', l.timeline)}${f('Callback time', l.callback)}
           ${f('Condition', l.condition)}${f('Occupancy', l.occupancy)}${f('Why selling', l.why)}
@@ -249,6 +268,10 @@ function leads() {
 }
 
 /* ---------- wiring ---------- */
+document.querySelectorAll('.view').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.view').forEach(x => x.classList.remove('on')); t.classList.add('on');
+  view = t.dataset.v; if (DATA) leads();
+});
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
   document.querySelectorAll('.tab').forEach(x => x.classList.remove('on')); t.classList.add('on');
   period = t.dataset.p; if (DATA) render();
@@ -268,6 +291,8 @@ const DEMO_DATA = (() => {
   const t = today.toISOString().slice(0, 10);
   return { ok: true, client: { id: 'demo', name: 'Sample Account', package: 'Standard', hours: 6, start: days[10].date }, days, leads: [
     { ts: t + 'T14:21:42', name: 'Sample Owner', address: '802 Example Ave, Trenton, NJ 08618', phone: '+15555550123', price: '$350,000', timeline: 'Couple of months', condition: 'Fixed up, no repairs needed', occupancy: 'Owner-occupied', why: 'Wants a cash offer', notes: 'Sample lead — this is what a handed-over lead looks like.', callback: 'Weekdays after 5pm', recording: '' }
+  ], disqualified: [
+    { ts: t + 'T11:03:10', name: 'Sample Owner 2', address: '17 Example St, Wilmington, DE 19801', phone: '+15555550199', price: '', timeline: 'No rush', condition: 'Needs a roof', occupancy: 'Tenant', why: 'Just curious what it is worth', notes: '', callback: '', recording: '', reason: 'No asking price and no callback time — two of the six checks missing.' }
   ] };
 })();
 load(); if (!DEMO && C && K) timer = setInterval(load, REFRESH_MS);
