@@ -245,7 +245,7 @@ function leads() {
   const Q = DATA.leads || [], D = DATA.disqualified || [];
   $('#nleads').textContent = Q.length || ''; $('#ndq').textContent = D.length || '';
   const dq = view === 'dq'; const L = dq ? D : Q;
-  $('#secr').textContent = dq ? 'calls that reached QA but missed one of the six checks — not counted as leads, shown so nothing is hidden' : 'newest first · every lead comes with its recording';
+  $('#secr').textContent = dq ? '' : 'newest first · every lead comes with its recording';
   if (!L.length) { box.innerHTML = `<div class="empty">${dq ? 'Nothing disqualified.' : 'No qualified leads handed over yet.'}</div>`; return; }
   L.forEach(l => {
     const f = (k, v, wide) => v ? `<div class="f${wide ? ' wide' : ''}"><div class="k">${k}</div><div class="v">${esc(v)}</div></div>` : '';
